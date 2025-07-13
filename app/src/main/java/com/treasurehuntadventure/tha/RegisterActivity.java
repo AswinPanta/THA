@@ -57,6 +57,8 @@ public class RegisterActivity extends AppCompatActivity {
                 player.put("timePlayed", 0);
                 FirebaseFirestore.getInstance().collection("players").document(userId).set(player)
                     .addOnSuccessListener(aVoid -> {
+                        // Seed initial challenges for new user
+                        ChallengeSeeder.seedChallenges();
                         startActivity(new Intent(this, MainActivity.class));
                         finish();
                     })

@@ -189,6 +189,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 }
             });
 
+        // Set up FAB buttons
+        findViewById(R.id.fab_profile).setOnClickListener(v -> 
+            startActivity(new Intent(this, ProfileActivity.class))
+        );
+        findViewById(R.id.fab_settings).setOnClickListener(v -> 
+            startActivity(new Intent(this, SettingsActivity.class))
+        );
+        findViewById(R.id.fab_ar).setOnClickListener(v -> {
+            Intent intent = new Intent(this, ARActivity.class);
+            intent.putExtra("glbFile", "treasure_chest.glb");
+            startActivity(intent);
+        });
+
         treasureIcon.setOnClickListener(v -> {
             if (activeTreasure != null) {
                 Intent intent = new Intent(this, CaptureActivity.class);
@@ -622,6 +635,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         if (id == R.id.action_profile) {
             startActivity(new Intent(this, ProfileActivity.class));
+            return true;
+        }
+        if (id == R.id.action_chat) {
+            startActivity(new Intent(this, ChatActivity.class));
+            return true;
+        }
+        if (id == R.id.action_leaderboard) {
+            startActivity(new Intent(this, LeaderboardActivity.class));
+            return true;
+        }
+        if (id == R.id.action_challenges) {
+            startActivity(new Intent(this, ChallengesActivity.class));
             return true;
         }
         if (id == R.id.action_settings) {
