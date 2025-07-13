@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp">
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/jollyroger"
+        android:contentDescription="AR treasure"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find Treasure in AR!"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Use your spyglass (AR) to spot and capture treasures in the real world!"
+        android:textSize="16sp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"/>
+</LinearLayout> 

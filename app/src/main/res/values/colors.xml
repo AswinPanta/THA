@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="pirate_gold">#FFD700</color>
+    <color name="pirate_brown">#6B4F27</color>
+    <color name="pirate_red">#B22222</color>
+    <color name="pirate_black">#000000</color>
+    <color name="pirate_white">#FFFFFF</color>
+    <color name="primaryColor">#6B4F27</color>
+    <color name="secondaryColor">#FFD700</color>
+    <color name="accentColor">#B22222</color>
+    <color name="common_treasure_color">#A8A8A8</color>
+    <color name="rare_treasure_color">#64B5F6</color>
+    <color name="legendary_treasure_color">#FFD700</color>
+</resources>

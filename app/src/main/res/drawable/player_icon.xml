@@ -1,0 +1,17 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Outer circle (border) -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/pirate_white"/>
+            <size android:width="72dp" android:height="72dp"/>
+        </shape>
+    </item>
+    <!-- Inner circle (player color) -->
+    <item android:top="4dp" android:bottom="4dp" android:left="4dp" android:right="4dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/pirate_gold"/>
+        </shape>
+    </item>
+    <!-- Player icon (e.g., a simple silhouette or initial) - Placeholder for now -->
+    <item android:drawable="@drawable/ic_launcher_foreground" android:gravity="center"/>
+</layer-list>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "845518374234",
+    "project_id": "treasureha",
+    "storage_bucket": "treasureha.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845518374234:android:0a2569feebd03b1cad1f63",
+        "android_client_info": {
+          "package_name": "com.treasurehuntadventure.tha"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUPtrZWOM8mhARblubOsmZ3WXg0TePBZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

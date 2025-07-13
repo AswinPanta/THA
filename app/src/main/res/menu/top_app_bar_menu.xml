@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_profile"
+        android:title="@string/profile"
+        android:icon="@drawable/player_icon"
+        android:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/settings"
+        android:icon="@drawable/ic_settings"
+        android:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_stats"
+        android:title="Stats"
+        android:icon="@drawable/treasure_star"
+        android:showAsAction="ifRoom" />
+</menu> 

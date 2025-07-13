@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/capture_treasure_image"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        tools:src="@tools:sample/avatars"/>
+
+    <TextView
+        android:id="@+id/capture_treasure_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/capture_treasure_image"
+        android:layout_centerHorizontal="true"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp"
+        tools:text="Legendary Artifact"/>
+
+    <TextView
+        android:id="@+id/capture_treasure_rarity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/capture_treasure_title"
+        android:layout_centerHorizontal="true"
+        android:textSize="22sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginBottom="32dp"
+        tools:text="LEGENDARY"/>
+
+    <Button
+        android:id="@+id/capture_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/capture_treasure_rarity"
+        android:layout_centerHorizontal="true"
+        android:text="Capture"
+        android:textSize="20sp" />
+
+</RelativeLayout>
