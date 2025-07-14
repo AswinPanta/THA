@@ -1,11 +1,107 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.THA" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryVariant">@color/pirate_brown</item>
-        <item name="colorOnPrimary">@color/pirate_white</item>
-        <item name="colorSecondary">@color/secondaryColor</item>
-        <item name="colorSecondaryVariant">@color/pirate_gold</item>
-        <item name="colorOnSecondary">@color/pirate_black</item>
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    <!-- One Piece Bounty Rush Main Theme -->
+    <style name="Theme.THA" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/op_sunny_orange</item>
+        <item name="colorPrimaryVariant">@color/op_dark_gold</item>
+        <item name="colorOnPrimary">@color/op_text_white</item>
+        <item name="colorSecondary">@color/op_ocean_blue</item>
+        <item name="colorSecondaryVariant">@color/op_deep_blue</item>
+        <item name="colorOnSecondary">@color/op_text_white</item>
+        <item name="colorSurface">@color/op_cream</item>
+        <item name="colorOnSurface">@color/op_text_primary</item>
+        <item name="android:statusBarColor">@color/op_deep_blue</item>
+        <item name="android:navigationBarColor">@color/op_deep_blue</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowBackground">@drawable/op_ocean_bg</item>
+    </style>
+
+    <!-- One Piece Style Button -->
+    <style name="Theme.THA.Button" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/op_sunny_orange</item>
+        <item name="android:textColor">@color/op_text_white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="strokeColor">@color/op_dark_gold</item>
+        <item name="android:elevation">8dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!-- One Piece Style Primary Button -->
+    <style name="Theme.THA.Button.Primary">
+        <item name="android:background">@drawable/op_button_gradient</item>
+        <item name="android:textColor">@color/op_text_white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:elevation">12dp</item>
+    </style>
+
+    <!-- One Piece Style Secondary Button -->
+    <style name="Theme.THA.Button.Secondary">
+        <item name="android:background">@drawable/op_button_blue</item>
+        <item name="android:textColor">@color/op_text_white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:elevation">8dp</item>
+    </style>
+
+    <!-- One Piece Style Card -->
+    <style name="Theme.THA.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">20dp</item>
+        <item name="cardElevation">12dp</item>
+        <item name="cardBackgroundColor">@color/op_card_bg</item>
+        <item name="strokeWidth">3dp</item>
+        <item name="strokeColor">@color/op_gold</item>
+    </style>
+
+    <!-- One Piece Style Text Input -->
+    <style name="Theme.THA.TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/op_ocean_blue</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="android:textColorHint">@color/op_text_secondary</item>
+    </style>
+
+    <!-- One Piece Style FAB -->
+    <style name="Theme.THA.FAB" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/op_sunny_orange</item>
+        <item name="tint">@color/op_text_white</item>
+        <item name="elevation">16dp</item>
+        <item name="borderWidth">2dp</item>
+        <item name="fabCustomSize">64dp</item>
+    </style>
+
+    <!-- One Piece Style Toolbar -->
+    <style name="Theme.THA.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">@color/op_deep_blue</item>
+        <item name="titleTextColor">@color/op_gold</item>
+        <item name="android:elevation">12dp</item>
+    </style>
+
+    <!-- One Piece Style Text -->
+    <style name="Theme.THA.Text" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/op_text_primary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Theme.THA.Text.Title">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/op_sunny_orange</item>
+    </style>
+
+    <style name="Theme.THA.Text.Header">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/op_ocean_blue</item>
+    </style>
+
+    <style name="Theme.THA.Text.Body">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/op_text_secondary</item>
     </style>
 </resources>

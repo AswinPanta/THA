@@ -19,6 +19,10 @@ public class PirateTransitionManager {
     private static boolean imagesLoaded = false;
 
     public static void preloadImages(Activity activity, String seaUrl, String boatUrl) {
+        if (activity == null) {
+            imagesLoaded = false;
+            return;
+        }
         Glide.with(activity).asBitmap().load(seaUrl).into(new CustomTarget<Bitmap>() {
             @Override public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
                 seaBitmap = resource;

@@ -1,16 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base Colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="pirate_gold">#FFD700</color>
-    <color name="pirate_brown">#6B4F27</color>
-    <color name="pirate_red">#B22222</color>
+    
+    <!-- One Piece Bounty Rush Inspired Colors -->
+    <color name="op_ocean_blue">#1565C0</color>
+    <color name="op_deep_blue">#0D47A1</color>
+    <color name="op_sunny_orange">#FF6F00</color>
+    <color name="op_bright_red">#D32F2F</color>
+    <color name="op_gold">#FFC107</color>
+    <color name="op_dark_gold">#FF8F00</color>
+    <color name="op_cream">#FFF8E1</color>
+    <color name="op_navy">#1A237E</color>
+    <color name="op_dark_navy">#000051</color>
+    <color name="op_light_blue">#4FC3F7</color>
+    <color name="op_green">#4CAF50</color>
+    <color name="op_purple">#9C27B0</color>
+    <color name="op_pink">#E91E63</color>
+    
+    <!-- Gradient Colors -->
+    <color name="op_gradient_start">#FF6F00</color>
+    <color name="op_gradient_mid">#FFC107</color>
+    <color name="op_gradient_end">#FFD54F</color>
+    
+    <!-- UI Element Colors -->
+    <color name="op_button_primary">#FF6F00</color>
+    <color name="op_button_secondary">#1565C0</color>
+    <color name="op_card_bg">#FFFFFF</color>
+    <color name="op_card_shadow">#33000000</color>
+    <color name="op_text_primary">#212121</color>
+    <color name="op_text_secondary">#757575</color>
+    <color name="op_text_white">#FFFFFF</color>
+    
+    <!-- Legacy Pirate Colors (for compatibility) -->
+    <color name="pirate_gold">#FFC107</color>
+    <color name="pirate_brown">#5D4037</color>
+    <color name="pirate_red">#D32F2F</color>
     <color name="pirate_black">#000000</color>
     <color name="pirate_white">#FFFFFF</color>
-    <color name="primaryColor">#6B4F27</color>
-    <color name="secondaryColor">#FFD700</color>
-    <color name="accentColor">#B22222</color>
-    <color name="common_treasure_color">#A8A8A8</color>
-    <color name="rare_treasure_color">#64B5F6</color>
-    <color name="legendary_treasure_color">#FFD700</color>
+    <color name="primaryColor">#FF6F00</color>
+    <color name="secondaryColor">#1565C0</color>
+    <color name="accentColor">#D32F2F</color>
+    
+    <!-- Treasure Rarity Colors -->
+    <color name="common_treasure_color">#9E9E9E</color>
+    <color name="rare_treasure_color">#2196F3</color>
+    <color name="legendary_treasure_color">#FFC107</color>
+    <color name="mythic_treasure_color">#9C27B0</color>
 </resources>

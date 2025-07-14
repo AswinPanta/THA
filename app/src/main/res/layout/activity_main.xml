@@ -11,16 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/topAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/primaryColor"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-        app:title="@string/app_name"
-        app:navigationIcon="@drawable/player_icon"
-        app:menu="@menu/top_app_bar_menu" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/treasure_card"
         android:layout_width="match_parent"

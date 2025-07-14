@@ -313,52 +313,66 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Treasure newTreasure = new Treasure("Treasure " + System.currentTimeMillis(), "", treasureLocation, getRandomRarity());
         newTreasure.setId(treasuresCollection.document().getId()); // Generate a unique ID for Firestore
 
-        // Fetch image for treasure details dialog (asynchronously)
-        pexelsApiClient.searchPhotos(newTreasure.getRarity().name().toLowerCase() + " treasure",
-                response -> {
-                    try {
-                        JSONObject jsonResponse = new JSONObject(response);
-                        JSONArray photos = jsonResponse.getJSONArray("photos");
-                        if (photos.length() > 0) {
-                            JSONObject photo = photos.getJSONObject(0);
-                            JSONObject src = photo.getJSONObject("src");
-                            String imageUrl = src.getString("medium");
-                            newTreasure.setImageUrl(imageUrl);
-                        }
-                    } catch (Exception e) {
-                        Log.e("PexelsAPI", "Error parsing Pexels API response for new treasure: " + e.getMessage(), e);
-                    } finally {
-                        // Save to Firestore after image URL is fetched or if fetching fails
-                        Map<String, Object> treasureData = new HashMap<>();
-                        treasureData.put("id", newTreasure.getId());
-                        treasureData.put("title", newTreasure.getTitle());
-                        treasureData.put("imageUrl", newTreasure.getImageUrl());
-                        treasureData.put("rarity", newTreasure.getRarity().name());
-                        treasureData.put("latitude", newTreasure.getLocation().getLatitude());
-                        treasureData.put("longitude", newTreasure.getLocation().getLongitude());
-                        treasureData.put("captured", false); // Initial status
+        // Fetch One Piece character data first
+        OnePieceApiService.fetchRandomCharacter(new OnePieceApiService.CharacterCallback() {
+            @Override
+            public void onSuccess(OnePieceCharacter character) {
+                // Set One Piece character data to treasure
+                newTreasure.setCharacterName(character.getName());
+                newTreasure.setCharacterDescription(character.getDescription());
+                newTreasure.setCrew(character.getCrew());
+                newTreasure.setDevilFruit(character.getDevilFruit());
+                newTreasure.setJob(character.getJob());
+                newTreasure.setBounty(character.getBounty());
+                
+                // Update treasure title to include character name
+                newTreasure.setTitle(character.getName() + "'s Treasure");
+                
+                // Try to get character image, fallback to lorem picsum if not available
+                String characterImageUrl = character.getImageUrl();
+                if (characterImageUrl != null && !characterImageUrl.isEmpty()) {
+                    newTreasure.setImageUrl(characterImageUrl);
+                    saveTreasureToFirestore(newTreasure);
+                } else {
+                    // Fallback to lorem picsum for character image
+                    String loremPicsumUrl = "https://picsum.photos/300/200?random=" + Math.abs(character.getName().hashCode());
+                    newTreasure.setImageUrl(loremPicsumUrl);
+                    saveTreasureToFirestore(newTreasure);
+                }
+            }
 
-                        treasuresCollection.document(newTreasure.getId()).set(treasureData)
-                                .addOnSuccessListener(aVoid -> Log.d("Firestore", "Treasure added with ID: " + newTreasure.getId()))
-                                .addOnFailureListener(e -> Log.w("Firestore", "Error adding treasure", e));
-                    }
-                },
-                error -> {
-                    Log.e("PexelsAPI", "Error fetching image from Pexels for new treasure: " + error.getMessage(), error);
-                    // Save to Firestore even if image fetching fails
-                    Map<String, Object> treasureData = new HashMap<>();
-                    treasureData.put("id", newTreasure.getId());
-                    treasureData.put("title", newTreasure.getTitle());
-                    treasureData.put("imageUrl", newTreasure.getImageUrl()); // Will be null or empty
-                    treasureData.put("rarity", newTreasure.getRarity().name());
-                    treasureData.put("latitude", newTreasure.getLocation().getLatitude());
-                    treasureData.put("longitude", newTreasure.getLocation().getLongitude());
-                    treasureData.put("captured", false); // Initial status
+            @Override
+            public void onError(String error) {
+                Log.e("OnePieceAPI", "Error fetching One Piece character: " + error);
+                // Fallback: create treasure without One Piece character data
+                String loremPicsumUrl = "https://picsum.photos/300/200?random=" + System.currentTimeMillis();
+                newTreasure.setImageUrl(loremPicsumUrl);
+                saveTreasureToFirestore(newTreasure);
+            }
+        });
+    }
 
-                    treasuresCollection.document(newTreasure.getId()).set(treasureData)
-                            .addOnSuccessListener(aVoid -> Log.d("Firestore", "Treasure added with ID: " + newTreasure.getId()))
-                            .addOnFailureListener(e -> Log.w("Firestore", "Error adding treasure", e));
-                });
+    private void saveTreasureToFirestore(Treasure treasure) {
+        Map<String, Object> treasureData = new HashMap<>();
+        treasureData.put("id", treasure.getId());
+        treasureData.put("title", treasure.getTitle());
+        treasureData.put("imageUrl", treasure.getImageUrl());
+        treasureData.put("rarity", treasure.getRarity().name());
+        treasureData.put("latitude", treasure.getLocation().getLatitude());
+        treasureData.put("longitude", treasure.getLocation().getLongitude());
+        treasureData.put("captured", false);
+        
+        // Add One Piece character data
+        treasureData.put("characterName", treasure.getCharacterName());
+        treasureData.put("characterDescription", treasure.getCharacterDescription());
+        treasureData.put("crew", treasure.getCrew());
+        treasureData.put("devilFruit", treasure.getDevilFruit());
+        treasureData.put("job", treasure.getJob());
+        treasureData.put("bounty", treasure.getBounty());
+
+        treasuresCollection.document(treasure.getId()).set(treasureData)
+                .addOnSuccessListener(aVoid -> Log.d("Firestore", "Treasure with One Piece character added with ID: " + treasure.getId()))
+                .addOnFailureListener(e -> Log.w("Firestore", "Error adding treasure", e));
     }
 
     private void fetchTreasuresFromFirestore() {
@@ -379,6 +393,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             GeoPoint location = new GeoPoint(latitude, longitude);
                             Treasure treasure = new Treasure(title, imageUrl, location, rarity);
                             treasure.setId(id);
+                            
+                            // Load One Piece character data
+                            treasure.setCharacterName(document.getString("characterName"));
+                            treasure.setCharacterDescription(document.getString("characterDescription"));
+                            treasure.setCrew(document.getString("crew"));
+                            treasure.setDevilFruit(document.getString("devilFruit"));
+                            treasure.setJob(document.getString("job"));
+                            treasure.setBounty(document.getString("bounty"));
+                            
                             fetchedTreasures.add(treasure);
                         }
 

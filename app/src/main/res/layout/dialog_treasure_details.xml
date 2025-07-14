@@ -34,4 +34,53 @@
         android:textColor="@android:color/darker_gray"
         tools:text="LEGENDARY"/>
 
+    <TextView
+        android:id="@+id/detail_character_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        tools:text="Luffy"/>
+
+    <TextView
+        android:id="@+id/detail_character_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="4dp"
+        tools:text="Description"/>
+
+    <TextView
+        android:id="@+id/detail_character_devil_fruit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="4dp"
+        tools:text="Devil Fruit: Gomu Gomu no Mi"/>
+
+    <TextView
+        android:id="@+id/detail_character_crew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="4dp"
+        tools:text="Crew: Straw Hat Pirates"/>
+
+    <TextView
+        android:id="@+id/detail_character_job"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="4dp"
+        tools:text="Job: Captain"/>
+
+    <TextView
+        android:id="@+id/detail_character_bounty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="4dp"
+        tools:text="Bounty: 1,500,000,000 Berries"/>
+
 </LinearLayout>

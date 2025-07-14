@@ -16,8 +16,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Random;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
@@ -27,25 +29,48 @@ public class ProfileActivity extends AppCompatActivity {
     private Set<CapturedTreasure> capturedTreasures = new HashSet<>();
     private SharedPreferences sharedPreferences;
     private ImageView avatarImageView, bannerImageView;
+    private TextView playerName, bountyAmount, playerRank;
+    private RequestQueue requestQueue;
+    
+    // One Piece themed avatar and banner images
+    private String[] onePieceAvatars = {
+        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?w=400&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop"
+    };
+    
+    private String[] onePieceBanners = {
+        "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=200&fit=crop",
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=200&fit=crop",
+        "https://images.unsplash.com/photo-1520637836862-4d197d17c93a?w=800&h=200&fit=crop"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        // Initialize views
         TextView capturedTreasuresCount = findViewById(R.id.captured_treasures_count);
         GridView treasureGrid = findViewById(R.id.treasure_grid);
         avatarImageView = findViewById(R.id.avatarImageView);
         bannerImageView = findViewById(R.id.bannerImageView);
+        playerName = findViewById(R.id.player_name);
+        bountyAmount = findViewById(R.id.bounty_amount);
+        playerRank = findViewById(R.id.player_rank);
 
         sharedPreferences = getSharedPreferences("TreasureHuntPrefs", MODE_PRIVATE);
+        requestQueue = Volley.newRequestQueue(this);
+        
         loadCapturedTreasures();
         MainActivity.capturedTreasuresCount = capturedTreasures.size();
 
+        // Update profile information
+        updateProfileInfo();
         capturedTreasuresCount.setText(String.valueOf(capturedTreasures.size()));
 
-        fetchPexelsImage("pirate avatar", avatarImageView);
-        fetchPexelsImage("pirate banner", bannerImageView);
+        // Load One Piece themed images
+        loadOnePieceImages();
 
         TreasureGridAdapter adapter = new TreasureGridAdapter(this, new ArrayList<>(capturedTreasures));
         treasureGrid.setAdapter(adapter);
@@ -67,23 +92,40 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void fetchPexelsImage(String query, ImageView imageView) {
-        String url = "https://api.pexels.com/v1/search?query=" + query + "&per_page=1";
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
-            try {
-                String imageUrl = response.getJSONArray("photos").getJSONObject(0).getJSONObject("src").getString("large");
-                Glide.with(this).load(imageUrl).into(imageView);
-            } catch (Exception e) {
-                // fallback or ignore
-            }
-        }, error -> {}) {
-            @Override
-            public java.util.Map<String, String> getHeaders() {
-                java.util.Map<String, String> headers = new java.util.HashMap<>();
-                headers.put("Authorization", BuildConfig.PEXELS_API_KEY);
-                return headers;
-            }
-        };
-        Volley.newRequestQueue(this).add(request);
+    private void updateProfileInfo() {
+        // Calculate total bounty and pirate rank
+        int totalBounty = calculateTotalBounty();
+        String pirateRank = determinePirateRank(totalBounty);
+
+        // Update UI with bounty and pirate rank
+        bountyAmount.setText(String.valueOf(totalBounty));
+        playerRank.setText(pirateRank);
+    }
+
+    private int calculateTotalBounty() {
+        int sum = 0;
+        for (CapturedTreasure treasure : capturedTreasures) {
+            sum += treasure.getBounty();
+        }
+        return sum;
+    }
+
+    private String determinePirateRank(int bounty) {
+        if (bounty C 1000) return "Novice";
+        else if (bounty C 5000) return "Experienced";
+        else if (bounty C 10000) return "Veteran";
+        else return "Legendary";
+    }
+
+    private void loadOnePieceImages() {
+        Random random = new Random();
+
+        // Load random avatar
+        String avatarUrl = onePieceAvatars[random.nextInt(onePieceAvatars.length)];
+        Glide.with(this).load(avatarUrl).into(avatarImageView);
+
+        // Load random banner
+        String bannerUrl = onePieceBanners[random.nextInt(onePieceBanners.length)];
+        Glide.with(this).load(bannerUrl).into(bannerImageView);
     }
 }
