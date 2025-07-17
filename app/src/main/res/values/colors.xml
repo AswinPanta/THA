@@ -48,4 +48,8 @@
     <color name="rare_treasure_color">#2196F3</color>
     <color name="legendary_treasure_color">#FFC107</color>
     <color name="mythic_treasure_color">#9C27B0</color>
+    
+    <!-- Alias colors for layout compatibility -->
+    <color name="primary">@color/primaryColor</color>
+    <color name="light_gray">#E0E0E0</color>
 </resources>

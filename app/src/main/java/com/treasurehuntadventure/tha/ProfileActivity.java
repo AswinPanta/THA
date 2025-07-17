@@ -105,15 +105,23 @@ public class ProfileActivity extends AppCompatActivity {
     private int calculateTotalBounty() {
         int sum = 0;
         for (CapturedTreasure treasure : capturedTreasures) {
-            sum += treasure.getBounty();
+            // Handle bounty field - it could be either String or null
+            String bountyStr = treasure.getBounty();
+            if (bountyStr != null && !bountyStr.isEmpty()) {
+                try {
+                    sum += Integer.parseInt(bountyStr);
+                } catch (NumberFormatException e) {
+                    // Skip if bounty is not a valid number
+                }
+            }
         }
         return sum;
     }
 
     private String determinePirateRank(int bounty) {
-        if (bounty C 1000) return "Novice";
-        else if (bounty C 5000) return "Experienced";
-        else if (bounty C 10000) return "Veteran";
+        if (bounty < 1000) return "Novice";
+        else if (bounty < 5000) return "Experienced";
+        else if (bounty < 10000) return "Veteran";
         else return "Legendary";
     }
 

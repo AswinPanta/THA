@@ -17,6 +17,7 @@ public class PirateTransitionManager {
     private static Bitmap seaBitmap;
     private static Bitmap boatBitmap;
     private static boolean imagesLoaded = false;
+    private static SoundManager soundManager;
 
     public static void preloadImages(Activity activity, String seaUrl, String boatUrl) {
         if (activity == null) {
@@ -42,6 +43,11 @@ public class PirateTransitionManager {
         if (seaBitmap != null && boatBitmap != null) imagesLoaded = true;
     }
     public static void showTransition(Activity activity, Runnable onComplete) {
+        if (soundManager == null) {
+            soundManager = SoundManager.getInstance(activity);
+        }
+        soundManager.playMapTransitionSound();
+        
         if (!imagesLoaded) { onComplete.run(); return; }
         LayoutInflater inflater = activity.getLayoutInflater();
         View overlay = inflater.inflate(R.layout.transition_pirate_boat, null);

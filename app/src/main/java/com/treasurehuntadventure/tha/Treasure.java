@@ -70,6 +70,10 @@ public class Treasure {
         this.imageUrl = imageUrl;
     }
     
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
     // Getters and setters for One Piece character data
     public String getCharacterName() {
         return characterName;

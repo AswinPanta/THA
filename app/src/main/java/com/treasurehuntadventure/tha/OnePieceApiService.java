@@ -30,6 +30,11 @@ public class OnePieceApiService {
         void onError(String error);
     }
     
+    public interface CharacterCallback {
+        void onSuccess(OnePieceCharacter character);
+        void onError(String error);
+    }
+    
     public static class OnePieceCharacter {
         public String name;
         public String description;
@@ -49,6 +54,14 @@ public class OnePieceApiService {
             this.job = job;
             this.bounty = bounty;
         }
+        
+        public String getName() { return name; }
+        public String getDescription() { return description; }
+        public String getImageUrl() { return imageUrl; }
+        public String getDevilFruit() { return devilFruit; }
+        public String getCrew() { return crew; }
+        public String getJob() { return job; }
+        public int getBounty() { return bounty; }
     }
     
     public static void fetchCharacters(OnePieceCharacterCallback callback) {
@@ -60,6 +73,29 @@ public class OnePieceApiService {
                 mainHandler.post(() -> callback.onSuccess(characters));
             } catch (Exception e) {
                 Log.e(TAG, "Error fetching One Piece characters", e);
+                mainHandler.post(() -> callback.onError(e.getMessage()));
+            }
+        });
+    }
+    
+    public static void fetchRandomCharacter(CharacterCallback callback) {
+        executor.execute(() -> {
+            try {
+                String jsonResponse = makeHttpRequest(BASE_URL);
+                List<OnePieceCharacter> characters = parseCharacters(jsonResponse);
+                
+                if (characters.isEmpty()) {
+                    mainHandler.post(() -> callback.onError("No characters found"));
+                    return;
+                }
+                
+                // Get random character
+                int randomIndex = new java.util.Random().nextInt(characters.size());
+                OnePieceCharacter randomCharacter = characters.get(randomIndex);
+                
+                mainHandler.post(() -> callback.onSuccess(randomCharacter));
+            } catch (Exception e) {
+                Log.e(TAG, "Error fetching random One Piece character", e);
                 mainHandler.post(() -> callback.onError(e.getMessage()));
             }
         });

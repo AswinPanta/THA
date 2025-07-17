@@ -11,6 +11,69 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <!-- Player Status Bar -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/player_status_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        android:layout_gravity="top"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+            
+            <!-- Top row: Level and Coins -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                
+                <TextView
+                    android:id="@+id/player_level_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Level 1"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:drawableStart="@drawable/ic_level"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical" />
+                
+                <TextView
+                    android:id="@+id/player_coins_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 coins"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:drawableStart="@drawable/ic_coin"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical" />
+            </LinearLayout>
+            
+            <!-- Experience Progress Bar -->
+            <ProgressBar
+                android:id="@+id/experience_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_marginTop="8dp"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:progressTint="@color/primary"
+                android:progressBackgroundTint="@color/light_gray"
+                android:max="100"
+                android:progress="0" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/treasure_card"
         android:layout_width="match_parent"

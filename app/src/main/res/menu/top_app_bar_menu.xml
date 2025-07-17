@@ -1,32 +1,33 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_profile"
         android:title="@string/profile"
         android:icon="@drawable/player_icon"
-        android:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_chat"
         android:title="Chat"
         android:icon="@drawable/ic_settings"
-        android:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_leaderboard"
         android:title="Leaderboard"
         android:icon="@drawable/treasure_star"
-        android:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_challenges"
         android:title="Challenges"
         android:icon="@drawable/treasure_star"
-        android:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_settings"
         android:title="@string/settings"
         android:icon="@drawable/ic_settings"
-        android:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_stats"
         android:title="Stats"
         android:icon="@drawable/treasure_star"
-        android:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom" />
 </menu>

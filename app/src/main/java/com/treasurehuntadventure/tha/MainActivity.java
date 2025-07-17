@@ -58,6 +58,7 @@ import java.util.Random;
 import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -72,6 +73,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Button zoomOutButton;
     private TextView nearbyTreasureText;
     private Treasure currentNearbyTreasure;
+    
+    // Enhanced game systems
+    private PlayerLevel playerLevel;
+    private TextView playerLevelText;
+    private TextView playerCoinsText;
+    private android.widget.ProgressBar experienceProgressBar;
 
     private SensorManager sensorManager;
     private Sensor accelerometer;
@@ -112,6 +119,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         treasureDirectionArrow = findViewById(R.id.treasure_direction_arrow); // Initialize the new arrow
         treasureDirectionArrow.setVisibility(View.GONE); // Hide by default
+        
+        // Initialize PlayerLevel system
+        playerLevel = new PlayerLevel(this);
+        
+        // Initialize UI elements for player level
+        playerLevelText = findViewById(R.id.player_level_text);
+        playerCoinsText = findViewById(R.id.player_coins_text);
+        experienceProgressBar = findViewById(R.id.experience_progress_bar);
+        
+        // Set up level-up listener for celebration
+        playerLevel.setLevelUpListener(new PlayerLevel.LevelUpListener() {
+            @Override
+            public void onLevelUp(int newLevel, int bonusCoins, String newRank) {
+                showLevelUpCelebration(newLevel, bonusCoins, newRank);
+            }
+        });
+        
+        // Update player level display
+        updatePlayerLevelDisplay();
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -173,6 +199,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         if (capturedTreasureData != null) {
                             capturedTreasures.add(new CapturedTreasure(capturedTreasureData.getImageUrl(), capturedTreasureData.getRarity()));
                             saveCapturedTreasures();
+                            
+                            // Award rewards for treasure capture
+                            awardTreasureReward(capturedTreasureData);
                         }
 
                         map.getOverlays().remove(activeTreasure);
@@ -241,6 +270,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_GAME);
         }
         listenForOtherPlayers();
+        
+        // Resume background music when activity resumes
+        soundManager.resumeBackgroundMusic();
     }
 
     @Override
@@ -250,6 +282,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         appLocationManager.stopLocationUpdates();
         sensorManager.unregisterListener(this);
         if (playersListener != null) playersListener.remove();
+        
+        // Pause background music when activity pauses
+        soundManager.pauseBackgroundMusic();
     }
 
     @Override
@@ -316,7 +351,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // Fetch One Piece character data first
         OnePieceApiService.fetchRandomCharacter(new OnePieceApiService.CharacterCallback() {
             @Override
-            public void onSuccess(OnePieceCharacter character) {
+            public void onSuccess(OnePieceApiService.OnePieceCharacter character) {
                 // Set One Piece character data to treasure
                 newTreasure.setCharacterName(character.getName());
                 newTreasure.setCharacterDescription(character.getDescription());
@@ -400,7 +435,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             treasure.setCrew(document.getString("crew"));
                             treasure.setDevilFruit(document.getString("devilFruit"));
                             treasure.setJob(document.getString("job"));
-                            treasure.setBounty(document.getString("bounty"));
+                            // Handle bounty field - it could be either String or Integer
+                            Object bountyValue = document.get("bounty");
+                            if (bountyValue instanceof String) {
+                                treasure.setBounty(Integer.parseInt((String) bountyValue));
+                            } else if (bountyValue instanceof Long) {
+                                treasure.setBounty(((Long) bountyValue).intValue());
+                            } else if (bountyValue instanceof Integer) {
+                                treasure.setBounty((Integer) bountyValue);
+                            } else {
+                                treasure.setBounty(0);
+                            }
                             
                             fetchedTreasures.add(treasure);
                         }
@@ -642,6 +687,42 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // Not used for this implementation
     }
+    
+    private void updatePlayerLevelDisplay() {
+        if (playerLevel != null) {
+            playerLevelText.setText("Level " + playerLevel.getLevel());
+            playerCoinsText.setText("Coins: " + playerLevel.getCoins());
+            
+            // Update experience progress bar
+            int currentExp = playerLevel.getExperience();
+            int expForNextLevel = playerLevel.getExperienceToNextLevel();
+            int maxProgress = 100;
+            int progress = (int) ((float) currentExp / expForNextLevel * maxProgress);
+            experienceProgressBar.setProgress(progress);
+        }
+    }
+    
+    private void awardTreasureReward(Treasure treasure) {
+        if (playerLevel != null && treasure != null) {
+            TreasureReward reward = new TreasureReward(treasure.getRarity());
+            
+            // Award experience
+            playerLevel.addExperience(reward.getExperience());
+            
+            // Award coins
+            playerLevel.addCoins(reward.getCoins());
+            
+            // Update display
+            updatePlayerLevelDisplay();
+            
+            // Show reward notification
+            String message = "Reward: +" + reward.getExperience() + " XP, +" + reward.getCoins() + " Coins";
+            if (treasure.getBounty() > 0) {
+                message += ", Bounty: " + treasure.getBounty();
+            }
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
@@ -677,5 +758,37 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    
+    private void showLevelUpCelebration(int newLevel, int bonusCoins, String newRank) {
+        // Create celebration dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("🎉 LEVEL UP! 🎉");
+        
+        String message = "Congratulations, Captain!\n\n" +
+                        "⭐ New Level: " + newLevel + "\n" +
+                        "🏆 Rank: " + newRank + "\n" +
+                        "💰 Bonus Coins: +" + bonusCoins + "\n\n" +
+                        "Keep sailing the seas to find more treasures!";
+        
+        builder.setMessage(message);
+        builder.setPositiveButton("Ahoy!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                // Update the UI display after celebration
+                updatePlayerLevelDisplay();
+            }
+        });
+        
+        builder.setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        
+        // Play level-up sound effect
+        soundManager.playLevelUpSound();
+        
+        // Show a toast as well for quick notification
+        Toast.makeText(this, "Level Up! Welcome to Level " + newLevel + ", " + newRank + "!", Toast.LENGTH_LONG).show();
     }
 }

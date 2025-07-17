@@ -11,6 +11,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private Switch soundToggle;
+    private SoundManager soundManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("TreasureHuntPrefs", MODE_PRIVATE);
         soundToggle = findViewById(R.id.sound_toggle);
+        soundManager = SoundManager.getInstance(this);
 
         // Load saved sound setting
         boolean soundEnabled = sharedPreferences.getBoolean("soundEnabled", true);
@@ -27,10 +29,13 @@ public class SettingsActivity extends AppCompatActivity {
         soundToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Save new sound setting
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("soundEnabled", isChecked);
-                editor.apply();
+                // Play button click sound (if enabling sound)
+                if (isChecked) {
+                    soundManager.playButtonClickSound();
+                }
+                
+                // Update sound manager with new setting
+                soundManager.setSoundEnabled(isChecked);
             }
         });
     }
