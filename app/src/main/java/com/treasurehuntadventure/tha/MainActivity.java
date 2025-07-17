@@ -67,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private AppLocationManager appLocationManager;
     private MyLocationNewOverlay mLocationOverlay;
     private SoundManager soundManager;
+    private AchievementManager achievementManager;
+    private OfflineDataManager offlineDataManager;
+    private SecurityManager securityManager;
+    private PerformanceManager performanceManager;
 
     private ImageView treasureIcon;
     private Button zoomInButton;
@@ -149,6 +153,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         appLocationManager = new AppLocationManager(this);
         soundManager = SoundManager.getInstance(this);
         pexelsApiClient = new PexelsApiClient(this);
+        
+        // Initialize new managers
+        achievementManager = AchievementManager.getInstance(this);
+        offlineDataManager = OfflineDataManager.getInstance(this);
+        securityManager = SecurityManager.getInstance(this);
+        performanceManager = PerformanceManager.getInstance(this);
+        
+        // Set up achievement listener
+        achievementManager.addListener(new AchievementManager.AchievementListener() {
+            @Override
+            public void onAchievementUnlocked(Achievement achievement) {
+                showAchievementNotification(achievement);
+            }
+            
+            @Override
+            public void onAchievementProgress(Achievement achievement, int oldProgress, int newProgress) {
+                // Update achievement progress in UI if needed
+            }
+        });
 
         // Initialize Firestore
         db = FirebaseFirestore.getInstance();
@@ -173,8 +196,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 for (Location location : locationResult.getLocations()) {
                     appLocationManager.setCurrentLocation(location);
                     GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-                    map.getController().setCenter(geoPoint);
-                    map.getController().setZoom(18.0);
+                    map.getController().animateTo(geoPoint);
+                    map.getController().setZoom(16.0);
                     mLocationOverlay.onLocationChanged(location, null);
                     checkForNearbyTreasures();
                     spawnTreasures();
@@ -254,8 +277,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 for (Location location : locationResult.getLocations()) {
                     appLocationManager.setCurrentLocation(location);
                     GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-                    map.getController().setCenter(geoPoint);
-                    map.getController().setZoom(18.0);
+                    map.getController().animateTo(geoPoint);
+                    map.getController().setZoom(16.0);
                     mLocationOverlay.onLocationChanged(location, null);
                     checkForNearbyTreasures();
                     spawnTreasures();
@@ -790,5 +813,35 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         
         // Show a toast as well for quick notification
         Toast.makeText(this, "Level Up! Welcome to Level " + newLevel + ", " + newRank + "!", Toast.LENGTH_LONG).show();
+    }
+    
+    private void showAchievementNotification(Achievement achievement) {
+        // Create achievement notification dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("🏆 Achievement Unlocked! 🏆");
+        
+        String message = "Congratulations, Captain!\n\n" +
+                        "🎯 Achievement: " + achievement.getTitle() + "\n" +
+                        "📝 Description: " + achievement.getDescription() + "\n" +
+                        "💰 Rewards: +" + achievement.getXpReward() + " XP, +" + achievement.getCoinsReward() + " Coins\n\n" +
+                        "Keep up the great work, pirate!";
+        
+        builder.setMessage(message);
+        builder.setPositiveButton("Arrr!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        
+        builder.setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        
+        // Play achievement sound
+        soundManager.playLevelUpSound(); // Using level up sound for achievements
+        
+        // Show toast notification
+        Toast.makeText(this, "Achievement Unlocked: " + achievement.getTitle(), Toast.LENGTH_LONG).show();
     }
 }

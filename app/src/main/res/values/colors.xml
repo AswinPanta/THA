@@ -49,6 +49,12 @@
     <color name="legendary_treasure_color">#FFC107</color>
     <color name="mythic_treasure_color">#9C27B0</color>
     
+    <!-- Notification Colors -->
+    <color name="treasure_gold">#DAA520</color>
+    <color name="achievement_gold">#FFD700</color>
+    <color name="level_up_blue">#4CAF50</color>
+    <color name="pirate_blue">#1565C0</color>
+    
     <!-- Alias colors for layout compatibility -->
     <color name="primary">@color/primaryColor</color>
     <color name="light_gray">#E0E0E0</color>

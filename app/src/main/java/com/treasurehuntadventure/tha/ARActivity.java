@@ -30,13 +30,14 @@ public class ARActivity extends AppCompatActivity {
         
         Timber.d("Enhanced ARActivity onCreate");
         
-        initializeViews();
-        setupEnhancedARExperience();
-        
+        // Initialize treasure model before setting up views
         treasureModel = getIntent().getStringExtra("glbFile");
         if (treasureModel == null) {
             treasureModel = "treasure_chest.glb";
         }
+        
+        initializeViews();
+        setupEnhancedARExperience();
         
         Timber.d("Treasure model: %s", treasureModel);
     }
