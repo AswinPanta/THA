@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black">
+    android:background="@android:color/black"
+    tools:context=".ARActivity">
 
     <!-- AR Scene View -->
     <io.github.sceneview.ar.ArSceneView
@@ -11,80 +13,304 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- Top overlay with instruction text -->
-    <LinearLayout
+    <!-- AR Overlay UI -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/ar_overlay_bg"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <TextView
-            android:id="@+id/instruction_text"
+        android:layout_height="match_parent">
+        
+        <!-- Top Status Bar -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/status_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="🏴‍☠️ Point your camera to discover the treasure!"
-            android:textColor="@color/pirate_white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <!-- Bottom controls -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/ar_overlay_bg"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="16dp">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/back_button"
+            android:layout_margin="16dp"
+            android:layout_gravity="top"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/op_card_bg"
+            android:alpha="0.95">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+                
+                <!-- AR Status Indicator -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    
+                    <View
+                        android:id="@+id/ar_status_dot"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/circle_status_indicator"
+                        android:backgroundTint="@color/op_green" />
+                    
+                    <TextView
+                        android:id="@+id/ar_status_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AR Ready"
+                        android:textSize="14sp"
+                        android:textColor="@color/op_text_primary"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+                
+                <!-- Distance to Treasure -->
+                <LinearLayout
+                    android:id="@+id/distance_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
+                    
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@drawable/ic_location"
+                        android:tint="@color/op_ocean_blue" />
+                    
+                    <TextView
+                        android:id="@+id/distance_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15m away"
+                        android:textSize="14sp"
+                        android:textColor="@color/op_ocean_blue"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                
+                <!-- Close Button -->
+                <ImageButton
+                    android:id="@+id/close_button"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="12dp"
+                    android:src="@drawable/ic_close"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:tint="@color/op_text_secondary"
+                    android:contentDescription="Close AR View" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        
+        <!-- Center Crosshair/Target -->
+        <ImageView
+            android:id="@+id/ar_crosshair"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ar_crosshair"
+            android:alpha="0.7"
+            android:contentDescription="AR Target Crosshair" />
+        
+        <!-- Instruction Text -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/instruction_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="@color/pirate_red"
-            android:text="Back to Map"
-            android:textColor="@color/pirate_white"
-            style="@style/Widget.MaterialComponents.Button" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/capture_button"
-            android:layout_width="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="120dp"
+            android:layout_marginHorizontal="24dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="@color/op_navy"
+            android:alpha="0.9">
+            
+            <TextView
+                android:id="@+id/instruction_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="🏴‍☠️ Point camera at the treasure!"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+        </androidx.cardview.widget.CardView>
+        
+        <!-- Bottom Action Panel -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/action_panel"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/pirate_gold"
-            android:text="🏴‍☠️ Capture Treasure!"
-            android:textColor="@color/pirate_black"
-            android:textStyle="bold"
+            android:layout_margin="16dp"
+            android:layout_gravity="bottom"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="12dp"
+            app:cardBackgroundColor="@color/op_card_bg"
+            android:alpha="0.95">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+                
+                <!-- Treasure Info (when detected) -->
+                <LinearLayout
+                    android:id="@+id/treasure_info_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone">
+                    
+                    <ImageView
+                        android:id="@+id/treasure_icon"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/treasure_chest"
+                        android:background="@drawable/circle_treasure_bg" />
+                    
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        
+                        <TextView
+                            android:id="@+id/treasure_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Golden Doubloons"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/op_text_primary" />
+                        
+                        <TextView
+                            android:id="@+id/treasure_rarity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🏆 Legendary Treasure"
+                            android:textSize="12sp"
+                            android:textColor="@color/op_gold" />
+                    </LinearLayout>
+                    
+                    <TextView
+                        android:id="@+id/treasure_points"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+500 pts"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/op_sunny_orange"
+                        android:background="@drawable/points_badge"
+                        android:padding="6dp" />
+                </LinearLayout>
+                
+                <!-- Action Buttons -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/back_button"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:text="Back to Map"
+                        android:textColor="@color/op_ocean_blue"
+                        app:strokeColor="@color/op_ocean_blue"
+                        app:strokeWidth="2dp"
+                        app:cornerRadius="28dp"
+                        app:icon="@drawable/ic_map"
+                        app:iconTint="@color/op_ocean_blue"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                    
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/capture_button"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="2"
+                        android:layout_marginStart="8dp"
+                        android:text="🏴‍☠️ Capture!"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        app:backgroundTint="@color/op_sunny_orange"
+                        app:cornerRadius="28dp"
+                        app:icon="@drawable/ic_capture"
+                        app:iconTint="@color/white"
+                        android:visibility="gone"
+                        style="@style/Widget.MaterialComponents.Button" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        
+        <!-- Compass/Direction Indicator -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/compass_card"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="16dp"
+            android:layout_gravity="top|end"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="@color/op_card_bg"
+            android:alpha="0.9">
+            
+            <ImageView
+                android:id="@+id/compass_needle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:src="@drawable/compass_needle"
+                android:contentDescription="Treasure Direction" />
+        </androidx.cardview.widget.CardView>
+        
+        <!-- Loading Overlay -->
+        <FrameLayout
+            android:id="@+id/loading_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/op_card_shadow"
             android:visibility="gone"
-            style="@style/Widget.MaterialComponents.Button" />
+            android:clickable="true"
+            android:focusable="true">
+            
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:gravity="center">
+                
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/loading_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:indicatorColor="@color/op_sunny_orange"
+                    app:trackColor="@color/op_cream" />
+                
+                <TextView
+                    android:id="@+id/loading_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Initializing AR..."
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </FrameLayout>
+    </FrameLayout>
 
-    </LinearLayout>
-
-    <!-- Loading indicator -->
-    <ProgressBar
-        android:id="@+id/loading_indicator"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_centerInParent="true"
-        android:indeterminateTint="@color/pirate_gold"
-        android:visibility="gone" />
-
-    <!-- AR status indicator -->
-    <ImageView
-        android:id="@+id/ar_status_indicator"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_ar_indicator"
-        android:tint="@color/pirate_gold"
-        android:contentDescription="AR Status" />
-
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

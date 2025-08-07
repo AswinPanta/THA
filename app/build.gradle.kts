@@ -94,6 +94,10 @@ dependencies {
     // Utilities
     implementation("org.apache.commons:commons-lang3:3.17.0")
     
+    // AR dependencies
+    implementation("com.google.ar:core:1.42.0")
+    implementation("io.github.sceneview:arsceneview:1.2.1")
+    
     // Testing
     testImplementation(libs.junit)
     testImplementation("org.mockito:mockito-core:5.14.2")

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    android:background="@color/op_card_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <!-- Rank Badge -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/rank_badge"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="12dp"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="@color/op_ocean_blue"
+            app:cardElevation="4dp">
+            
+            <TextView
+                android:id="@+id/rank_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="1"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:gravity="center" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Player Avatar -->
+        <ImageView
+            android:id="@+id/player_avatar"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/default_avatar"
+            android:background="@drawable/circle_avatar_border"
+            android:scaleType="centerCrop" />
+
+        <!-- Player Info -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/player_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Captain Blackbeard"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/op_text_primary"
+                android:fontFamily="serif" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:id="@+id/player_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Legendary Pirate"
+                    android:textSize="12sp"
+                    android:textColor="@color/op_gold"
+                    android:textStyle="italic"
+                    android:drawableStart="@drawable/ic_star_small"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical" />
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="4dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/dot_separator" />
+
+                <TextView
+                    android:id="@+id/treasures_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="42 treasures"
+                    android:textSize="12sp"
+                    android:textColor="@color/op_text_secondary"
+                    android:drawableStart="@drawable/ic_treasure_small"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Score Section -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/player_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1,250"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/op_sunny_orange"
+                android:fontFamily="monospace" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="points"
+                android:textSize="10sp"
+                android:textColor="@color/op_text_secondary" />
+        </LinearLayout>
+
+        <!-- Trend Arrow -->
+        <ImageView
+            android:id="@+id/trend_arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_trending_up"
+            android:tint="@color/op_green"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

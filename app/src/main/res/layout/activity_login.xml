@@ -1,81 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/pirate_login_background"
     tools:context=".LoginActivity">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailInputLayout"
-        android:layout_width="0dp"
+    <!-- Animated Background Waves -->
+    <ImageView
+        android:id="@+id/background_waves"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.3"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ocean_waves_bg" />
+
+    <!-- Main Login Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/login_card"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="120dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/emailEditText"
+        android:layout_margin="24dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="12dp"
+        android:background="@color/op_card_bg">
+        
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passwordInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/emailInputLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        app:layout_constraintTop_toBottomOf="@id/passwordInputLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"/>
-
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Register"
-        app:layout_constraintTop_toBottomOf="@id/loginButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"/>
-
-    <TextView
-        android:id="@+id/errorTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/holo_red_dark"
+            android:orientation="vertical"
+            android:padding="32dp">
+            
+            <!-- Pirate Logo/Title -->
+            <ImageView
+                android:id="@+id/pirate_logo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="24dp"
+                android:src="@drawable/jollyroger"
+                android:contentDescription="Treasure Hunt Adventure Logo" />
+            
+            <TextView
+                android:id="@+id/welcome_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:text="Welcome, Pirate!"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="@color/op_navy"
+                android:fontFamily="serif" />
+            
+            <TextView
+                android:id="@+id/subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="32dp"
+                android:text="Begin your treasure hunting adventure"
+                android:textSize="16sp"
+                android:textColor="@color/op_text_secondary"
+                android:fontFamily="serif" />
+            
+            <!-- Email Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:boxStrokeColor="@color/op_ocean_blue"
+                app:hintTextColor="@color/op_ocean_blue"
+                app:startIconDrawable="@drawable/ic_email"
+                app:startIconTint="@color/op_ocean_blue"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Captain's Email"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/op_text_primary" />
+            </com.google.android.material.textfield.TextInputLayout>
+            
+            <!-- Password Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passwordInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:boxStrokeColor="@color/op_ocean_blue"
+                app:hintTextColor="@color/op_ocean_blue"
+                app:startIconDrawable="@drawable/ic_lock"
+                app:startIconTint="@color/op_ocean_blue"
+                app:endIconMode="password_toggle"
+                app:endIconTint="@color/op_ocean_blue"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/passwordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Secret Password"
+                    android:inputType="textPassword"
+                    android:textColor="@color/op_text_primary" />
+            </com.google.android.material.textfield.TextInputLayout>
+            
+            <!-- Login Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:text="Set Sail (Login)"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/op_sunny_orange"
+                app:cornerRadius="28dp"
+                app:icon="@drawable/ic_sailing"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconTint="@color/white"
+                style="@style/Widget.MaterialComponents.Button" />
+            
+            <!-- Register Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/registerButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="16dp"
+                android:text="Join the Crew (Register)"
+                android:textSize="16sp"
+                android:textColor="@color/op_ocean_blue"
+                app:strokeColor="@color/op_ocean_blue"
+                app:strokeWidth="2dp"
+                app:cornerRadius="28dp"
+                app:icon="@drawable/ic_person_add"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconTint="@color/op_ocean_blue"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+            
+            <!-- Forgot Password -->
+            <TextView
+                android:id="@+id/forgotPasswordText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Forgot your treasure map?"
+                android:textSize="14sp"
+                android:textColor="@color/op_ocean_blue"
+                android:padding="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+            
+            <!-- Error Message -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/error_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/op_bright_red"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
+                
+                <TextView
+                    android:id="@+id/errorTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:drawableStart="@drawable/ic_error"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical" />
+            </androidx.cardview.widget.CardView>
+            
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    
+    <!-- Loading Overlay -->
+    <FrameLayout
+        android:id="@+id/loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/op_card_shadow"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/registerButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"/>
+        android:clickable="true"
+        android:focusable="true">
+        
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/loading_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:indicatorColor="@color/op_sunny_orange"
+            app:trackColor="@color/op_cream" />
+    </FrameLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout> 
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

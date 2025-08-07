@@ -1,16 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/pirate_leaderboard_background"
+    tools:context=".LeaderboardActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/leaderboardRecyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+    <!-- Header Section -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="@color/op_navy"
+            app:expandedTitleMarginStart="16dp"
+            app:expandedTitleMarginEnd="64dp"
+            app:title="Pirate Leaderboard">
+            
+            <!-- Background Image -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/leaderboard_header_bg"
+                app:layout_collapseMode="parallax" />
+            
+            <!-- Trophy Icon -->
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_trophy_gold"
+                android:alpha="0.8"
+                app:layout_collapseMode="parallax" />
+            
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+    
+    <!-- Main Content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+            
+            <!-- Top 3 Pirates Section -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/top_pirates_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="@color/op_card_bg">
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🏆 Top Pirates"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/op_navy"
+                        android:layout_marginBottom="16dp"
+                        android:fontFamily="serif" />
+                    
+                    <!-- Top 3 Podium Layout -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+                        
+                        <!-- 2nd Place -->
+                        <LinearLayout
+                            android:id="@+id/second_place_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="8dp">
+                            
+                            <ImageView
+                                android:id="@+id/second_place_avatar"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:src="@drawable/default_avatar"
+                                android:background="@drawable/circle_silver_border" />
+                            
+                            <TextView
+                                android:id="@+id/second_place_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Captain 2"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/op_text_primary"
+                                android:layout_marginTop="4dp" />
+                            
+                            <TextView
+                                android:id="@+id/second_place_score"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="850"
+                                android:textSize="14sp"
+                                android:textColor="@color/op_ocean_blue" />
+                        </LinearLayout>
+                        
+                        <!-- 1st Place (Taller) -->
+                        <LinearLayout
+                            android:id="@+id/first_place_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="8dp">
+                            
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_crown"
+                                android:layout_marginBottom="4dp" />
+                            
+                            <ImageView
+                                android:id="@+id/first_place_avatar"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:src="@drawable/default_avatar"
+                                android:background="@drawable/circle_gold_border" />
+                            
+                            <TextView
+                                android:id="@+id/first_place_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Captain 1"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/op_text_primary"
+                                android:layout_marginTop="4dp" />
+                            
+                            <TextView
+                                android:id="@+id/first_place_score"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1250"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/op_gold" />
+                        </LinearLayout>
+                        
+                        <!-- 3rd Place -->
+                        <LinearLayout
+                            android:id="@+id/third_place_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="8dp">
+                            
+                            <ImageView
+                                android:id="@+id/third_place_avatar"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:src="@drawable/default_avatar"
+                                android:background="@drawable/circle_bronze_border" />
+                            
+                            <TextView
+                                android:id="@+id/third_place_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Captain 3"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/op_text_primary"
+                                android:layout_marginTop="4dp" />
+                            
+                            <TextView
+                                android:id="@+id/third_place_score"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="720"
+                                android:textSize="14sp"
+                                android:textColor="@color/pirate_brown" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            
+            <!-- All Pirates List -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/op_card_bg">
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="⚔️ All Pirates"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/op_navy"
+                        android:padding="16dp"
+                        android:fontFamily="serif" />
+                    
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/leaderboardRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:paddingBottom="16dp"
+                        tools:listitem="@layout/item_leaderboard_enhanced" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    
+    <!-- Refresh FAB -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_refresh"
+        app:backgroundTint="@color/op_sunny_orange"
+        app:tint="@color/white" />
 
-</androidx.constraintlayout.widget.ConstraintLayout> 
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

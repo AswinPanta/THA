@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    
+    <!-- North arrow -->
+    <path
+        android:pathData="M24,4 L28,20 L24,18 L20,20 Z"
+        android:fillColor="@color/op_bright_red" />
+    
+    <!-- South arrow -->
+    <path
+        android:pathData="M24,44 L20,28 L24,30 L28,28 Z"
+        android:fillColor="@color/op_text_secondary" />
+    
+    <!-- Center circle -->
+    <path
+        android:pathData="M24,21 A3,3 0 0,1 27,24 A3,3 0 0,1 24,27 A3,3 0 0,1 21,24 A3,3 0 0,1 24,21 Z"
+        android:fillColor="@color/op_navy" />
+</vector>
