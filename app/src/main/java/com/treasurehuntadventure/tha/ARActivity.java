@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import timber.log.Timber;
+import com.google.ar.core.ArCoreApk;
 
 public class ARActivity extends AppCompatActivity {
     private static final String TAG = "ARActivity";
@@ -19,11 +21,14 @@ public class ARActivity extends AppCompatActivity {
     private ObjectAnimator pulseAnimator;
     private ObjectAnimator pulseY;
     private Handler mainHandler;
+    private View arSceneView;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ar_simple);
+        // Prefer enhanced AR layout if ARCore is available
+        boolean arAvailable = isArCoreSupported();
+        setContentView(arAvailable ? R.layout.activity_ar_enhanced : R.layout.activity_ar_simple);
         
         // Initialize Timber for better logging
         if (Timber.treeCount() == 0) {
@@ -40,6 +45,9 @@ public class ARActivity extends AppCompatActivity {
         }
         
         initializeViews();
+        if (arAvailable) {
+            setupArSession();
+        }
         setupEnhancedARExperience();
         
         Timber.d("Treasure model: %s", treasureModel);
@@ -48,6 +56,7 @@ public class ARActivity extends AppCompatActivity {
     private void initializeViews() {
         treasureImageView = findViewById(R.id.ar_image);
         arTitle = findViewById(R.id.ar_title);
+        arSceneView = findViewById(R.id.ar_scene_view);
         
         arTitle.setText("🏴‍☠️ Enhanced AR Treasure Hunt");
         
@@ -69,6 +78,21 @@ public class ARActivity extends AppCompatActivity {
             Toast.makeText(this, "🏴‍☠️ Treasure detected nearby!", Toast.LENGTH_SHORT).show();
             treasureImageView.setVisibility(View.VISIBLE);
         }, 1500);
+    }
+
+    private boolean isArCoreSupported() {
+        try {
+            ArCoreApk.Availability availability = ArCoreApk.getInstance().checkAvailability(this);
+            return availability.isSupported();
+        } catch (Throwable t) {
+            Timber.w(t, "ARCore availability check failed");
+            return false;
+        }
+    }
+
+    private void setupArSession() {
+        if (arSceneView == null) return;
+        // Placeholder hook: real AR session wiring to be added with dependency
     }
     
     private void setTreasureImage() {

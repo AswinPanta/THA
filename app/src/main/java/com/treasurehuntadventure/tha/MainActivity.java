@@ -103,7 +103,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private String userId;
     private ListenerRegistration playersListener;
+    private ListenerRegistration treasuresListener;
     private final List<Marker> playerMarkers = new ArrayList<>();
+    private final java.util.Map<String, Marker> treasureIdToMarker = new java.util.HashMap<>();
 
     private ImageView treasureDirectionArrow; // New: 2D arrow for treasure direction
 
@@ -203,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         map.getOverlays().add(compassOverlay);
 
         // Defer starting location updates to onResume to avoid double registration
+        startTreasureSnapshotListener();
 
         zoomInButton.setOnClickListener(v -> map.getController().zoomIn());
         zoomOutButton.setOnClickListener(v -> map.getController().zoomOut());
@@ -385,8 +388,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 generateAndSaveTreasureToFirestore(currentLocation);
                             }
                         }
-                        // After ensuring enough treasures, fetch and display them
-                        fetchTreasuresFromFirestore();
+                        // Snapshot listener will render new treasures as they arrive
                     } else {
                         Log.w("Firestore", "Error getting documents for spawning: ", task.getException());
                         Toast.makeText(MainActivity.this, "Error checking treasures in Firestore", Toast.LENGTH_SHORT).show();
@@ -466,54 +468,81 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 .addOnFailureListener(e -> Log.w("Firestore", "Error adding treasure", e));
     }
 
-    private void fetchTreasuresFromFirestore() {
-        treasuresCollection.whereEqualTo("captured", false)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        List<Treasure> fetchedTreasures = new ArrayList<>();
-                        for (com.google.firebase.firestore.QueryDocumentSnapshot document : task.getResult()) {
-                            // Convert Firestore document to Treasure object
-                            String id = document.getId();
-                            String title = document.getString("title");
-                            String imageUrl = document.getString("imageUrl");
-                            double latitude = document.getDouble("latitude");
-                            double longitude = document.getDouble("longitude");
-                            TreasureRarity rarity = TreasureRarity.valueOf(document.getString("rarity"));
+    private void startTreasureSnapshotListener() {
+        if (treasuresListener != null) treasuresListener.remove();
+        treasuresListener = treasuresCollection.whereEqualTo("captured", false)
+            .addSnapshotListener((snap, e) -> {
+                if (e != null || snap == null) return;
+                java.util.Set<String> seenIds = new java.util.HashSet<>();
+                for (QueryDocumentSnapshot document : snap) {
+                    String id = document.getId();
+                    seenIds.add(id);
+                    String title = document.getString("title");
+                    String imageUrl = document.getString("imageUrl");
+                    Double latObj = document.getDouble("latitude");
+                    Double lonObj = document.getDouble("longitude");
+                    if (latObj == null || lonObj == null) continue;
+                    GeoPoint location = new GeoPoint(latObj, lonObj);
+                    String rarityStr = document.getString("rarity");
+                    TreasureRarity rarity = rarityStr != null ? TreasureRarity.valueOf(rarityStr) : TreasureRarity.COMMON;
 
-                            GeoPoint location = new GeoPoint(latitude, longitude);
-                            Treasure treasure = new Treasure(title, imageUrl, location, rarity);
-                            treasure.setId(id);
-                            
-                            // Load One Piece character data
-                            treasure.setCharacterName(document.getString("characterName"));
-                            treasure.setCharacterDescription(document.getString("characterDescription"));
-                            treasure.setCrew(document.getString("crew"));
-                            treasure.setDevilFruit(document.getString("devilFruit"));
-                            treasure.setJob(document.getString("job"));
-                            // Handle bounty field - it could be either String or Integer
-                            Object bountyValue = document.get("bounty");
-                            if (bountyValue instanceof String) {
-                                treasure.setBounty(Integer.parseInt((String) bountyValue));
-                            } else if (bountyValue instanceof Long) {
-                                treasure.setBounty(((Long) bountyValue).intValue());
-                            } else if (bountyValue instanceof Integer) {
-                                treasure.setBounty((Integer) bountyValue);
-                            } else {
-                                treasure.setBounty(0);
-                            }
-                            
-                            fetchedTreasures.add(treasure);
-                        }
-
-                        // Display fetched treasures
-                        displayTreasures(fetchedTreasures);
-
+                    Treasure treasure = new Treasure(title, imageUrl, location, rarity);
+                    treasure.setId(id);
+                    treasure.setCharacterName(document.getString("characterName"));
+                    treasure.setCharacterDescription(document.getString("characterDescription"));
+                    treasure.setCrew(document.getString("crew"));
+                    treasure.setDevilFruit(document.getString("devilFruit"));
+                    treasure.setJob(document.getString("job"));
+                    Object bountyValue = document.get("bounty");
+                    if (bountyValue instanceof String) {
+                        try { treasure.setBounty(Integer.parseInt((String) bountyValue)); } catch (Exception ignore) { treasure.setBounty(0); }
+                    } else if (bountyValue instanceof Long) {
+                        treasure.setBounty(((Long) bountyValue).intValue());
+                    } else if (bountyValue instanceof Integer) {
+                        treasure.setBounty((Integer) bountyValue);
                     } else {
-                        Log.w("Firestore", "Error getting documents: ", task.getException());
-                        Toast.makeText(MainActivity.this, "Error fetching treasures from Firestore", Toast.LENGTH_SHORT).show();
+                        treasure.setBounty(0);
                     }
-                });
+
+                    Marker marker = treasureIdToMarker.get(id);
+                    if (marker == null) {
+                        marker = new Marker(map);
+                        marker.setPosition(location);
+                        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                        marker.setRelatedObject(treasure);
+                        marker.setTitle(treasure.getTitle());
+                        marker.setSnippet(treasure.getImageUrl());
+                        // Set icon based on rarity
+                        if (rarity == TreasureRarity.COMMON) {
+                            marker.setIcon(ContextCompat.getDrawable(this, R.drawable.jollyroger));
+                        } else if (rarity == TreasureRarity.RARE) {
+                            marker.setIcon(ContextCompat.getDrawable(this, R.drawable.jollyroger));
+                        } else {
+                            marker.setIcon(ContextCompat.getDrawable(this, R.drawable.jollyroger));
+                        }
+                        map.getOverlays().add(marker);
+                        treasureIdToMarker.put(id, marker);
+                        treasureMarkers.add(marker);
+                    } else {
+                        marker.setPosition(location);
+                        marker.setTitle(treasure.getTitle());
+                        marker.setSnippet(treasure.getImageUrl());
+                        marker.setRelatedObject(treasure);
+                    }
+                }
+
+                // Remove markers that disappeared
+                java.util.Iterator<java.util.Map.Entry<String, Marker>> it = treasureIdToMarker.entrySet().iterator();
+                while (it.hasNext()) {
+                    java.util.Map.Entry<String, Marker> entry = it.next();
+                    if (!seenIds.contains(entry.getKey())) {
+                        map.getOverlays().remove(entry.getValue());
+                        treasureMarkers.remove(entry.getValue());
+                        it.remove();
+                    }
+                }
+                map.invalidate();
+            });
     }
 
     private void displayTreasures(List<Treasure> treasures) {
