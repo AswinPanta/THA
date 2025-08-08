@@ -109,6 +109,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private ActivityResultLauncher<Intent> captureActivityLauncher;
 
+    // Performance/UX control flags and throttles
+    private boolean hasCenteredMapOnce = false;
+    private boolean locationUpdatesActive = false;
+    private long lastTreasureSpawnMs = 0L;
+    private Location lastTreasureSpawnLocation = null;
+    private static final long TREASURE_SPAWN_MIN_INTERVAL_MS = 60_000L; // 1 minute
+    private static final float TREASURE_SPAWN_MIN_DISTANCE_METERS = 150f;
+    private long lastAzimuthUiUpdateMs = 0L;
+    private static final long AZIMUTH_UPDATE_THROTTLE_MS = 100L;
+    private ObjectAnimator treasureIconPulseX;
+    private ObjectAnimator treasureIconPulseY;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,26 +202,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         compassOverlay.enableCompass();
         map.getOverlays().add(compassOverlay);
 
-        appLocationManager.startLocationUpdates(new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                for (Location location : locationResult.getLocations()) {
-                    appLocationManager.setCurrentLocation(location);
-                    GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-                    map.getController().animateTo(geoPoint);
-                    map.getController().setZoom(16.0);
-                    mLocationOverlay.onLocationChanged(location, null);
-                    checkForNearbyTreasures();
-                    spawnTreasures();
-                    updatePlayerLocation(location);
-                }
-            }
-        });
+        // Defer starting location updates to onResume to avoid double registration
 
         zoomInButton.setOnClickListener(v -> map.getController().zoomIn());
         zoomOutButton.setOnClickListener(v -> map.getController().zoomOut());
 
-        userId = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser().getUid();
+        // Ensure we have a user; avoid NPE if not signed in
+        com.google.firebase.auth.FirebaseUser currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            userId = currentUser.getUid();
+        } else {
+            com.google.firebase.auth.FirebaseAuth.getInstance().signInAnonymously()
+                .addOnSuccessListener(result -> userId = result.getUser() != null ? result.getUser().getUid() : null)
+                .addOnFailureListener(e -> Log.w("Auth", "Anonymous sign-in failed", e));
+        }
 
         captureActivityLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -271,21 +277,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onResume() {
         super.onResume();
         map.onResume();
-        appLocationManager.startLocationUpdates(new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                for (Location location : locationResult.getLocations()) {
-                    appLocationManager.setCurrentLocation(location);
-                    GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-                    map.getController().animateTo(geoPoint);
-                    map.getController().setZoom(16.0);
-                    mLocationOverlay.onLocationChanged(location, null);
-                    checkForNearbyTreasures();
-                    spawnTreasures();
-                    updatePlayerLocation(location);
-                }
-            }
-        });
+        startLocationTracking();
         if (accelerometer != null) {
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
         }
@@ -302,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onPause() {
         super.onPause();
         map.onPause();
-        appLocationManager.stopLocationUpdates();
+        stopLocationTracking();
         sensorManager.unregisterListener(this);
         if (playersListener != null) playersListener.remove();
         
@@ -314,6 +306,47 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onDestroy() {
         super.onDestroy();
         soundManager.release();
+    }
+
+    private void startLocationTracking() {
+        if (locationUpdatesActive) return;
+        locationUpdatesActive = true;
+        appLocationManager.startLocationUpdates(new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                for (Location location : locationResult.getLocations()) {
+                    appLocationManager.setCurrentLocation(location);
+                    GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+                    if (!hasCenteredMapOnce) {
+                        map.getController().setZoom(16.0);
+                        map.getController().animateTo(geoPoint);
+                        hasCenteredMapOnce = true;
+                    }
+                    mLocationOverlay.onLocationChanged(location, null);
+                    checkForNearbyTreasures();
+                    maybeSpawnTreasures(location);
+                    updatePlayerLocation(location);
+                }
+            }
+        });
+    }
+
+    private void stopLocationTracking() {
+        if (!locationUpdatesActive) return;
+        appLocationManager.stopLocationUpdates();
+        locationUpdatesActive = false;
+    }
+
+    private void maybeSpawnTreasures(Location location) {
+        long now = System.currentTimeMillis();
+        boolean dueByTime = now - lastTreasureSpawnMs >= TREASURE_SPAWN_MIN_INTERVAL_MS;
+        boolean dueByDistance = lastTreasureSpawnLocation == null
+                || location.distanceTo(lastTreasureSpawnLocation) >= TREASURE_SPAWN_MIN_DISTANCE_METERS;
+        if (dueByTime || dueByDistance) {
+            lastTreasureSpawnMs = now;
+            lastTreasureSpawnLocation = new Location(location);
+            spawnTreasures();
+        }
     }
 
     @Override
@@ -557,17 +590,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             nearbyTreasureText.setText("Treasure nearby: " + currentTreasure.getTitle());
             Glide.with(this).load(currentTreasure.getImageUrl()).into(treasureIcon);
 
-            // Add pulsing animation to treasureIcon
-            ObjectAnimator scaleX = ObjectAnimator.ofFloat(treasureIcon, "scaleX", 0.8f, 1.2f);
-            ObjectAnimator scaleY = ObjectAnimator.ofFloat(treasureIcon, "scaleY", 0.8f, 1.2f);
-            scaleX.setDuration(1000);
-            scaleY.setDuration(1000);
-            scaleX.setRepeatCount(ObjectAnimator.INFINITE);
-            scaleY.setRepeatCount(ObjectAnimator.INFINITE);
-            scaleX.setRepeatMode(ObjectAnimator.REVERSE);
-            scaleY.setRepeatMode(ObjectAnimator.REVERSE);
-            scaleX.start();
-            scaleY.start();
+            // Start or ensure pulsing animation
+            if (treasureIconPulseX == null) {
+                treasureIconPulseX = ObjectAnimator.ofFloat(treasureIcon, "scaleX", 0.8f, 1.2f);
+                treasureIconPulseX.setDuration(1000);
+                treasureIconPulseX.setRepeatCount(ObjectAnimator.INFINITE);
+                treasureIconPulseX.setRepeatMode(ObjectAnimator.REVERSE);
+            }
+            if (treasureIconPulseY == null) {
+                treasureIconPulseY = ObjectAnimator.ofFloat(treasureIcon, "scaleY", 0.8f, 1.2f);
+                treasureIconPulseY.setDuration(1000);
+                treasureIconPulseY.setRepeatCount(ObjectAnimator.INFINITE);
+                treasureIconPulseY.setRepeatMode(ObjectAnimator.REVERSE);
+            }
+            if (!treasureIconPulseX.isStarted()) treasureIconPulseX.start();
+            if (!treasureIconPulseY.isStarted()) treasureIconPulseY.start();
 
             currentNearbyTreasure = (Treasure) activeTreasure.getRelatedObject();
 
@@ -575,8 +612,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             treasureIcon.setVisibility(View.GONE);
             nearbyTreasureText.setVisibility(View.GONE);
             nearbyTreasureText.setText("No treasures nearby");
-            // Stop any ongoing animations when treasure is not active
-            treasureIcon.clearAnimation();
+            // Stop any ongoing ObjectAnimator animations when treasure is not active
+            if (treasureIconPulseX != null) {
+                treasureIconPulseX.cancel();
+            }
+            if (treasureIconPulseY != null) {
+                treasureIconPulseY.cancel();
+            }
+            treasureIcon.setScaleX(1f);
+            treasureIcon.setScaleY(1f);
             currentNearbyTreasure = null;
             treasureDirectionArrow.setVisibility(View.GONE); // Hide arrow if no treasure nearby
         }
@@ -637,10 +681,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            gravity = event.values;
+            gravity = event.values.clone();
         }
         if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-            geomagnetic = event.values;
+            geomagnetic = event.values.clone();
         }
         if (gravity != null && geomagnetic != null) {
             float[] rotationMatrix = new float[9];
@@ -651,8 +695,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 SensorManager.getOrientation(rotationMatrix, orientation);
                 float azimuthInRadians = orientation[0];
                 currentAzimuth = (float) (Math.toDegrees(azimuthInRadians) + 360) % 360; // Update currentAzimuth
-                ImageView playerAvatar = findViewById(R.id.player_avatar);
-                playerAvatar.setRotation(-currentAzimuth);
+                long now = System.currentTimeMillis();
+                if (now - lastAzimuthUiUpdateMs >= AZIMUTH_UPDATE_THROTTLE_MS) {
+                    lastAzimuthUiUpdateMs = now;
+                    ImageView playerAvatar = findViewById(R.id.player_avatar);
+                    playerAvatar.setRotation(-currentAzimuth);
+                }
             }
         }
     }

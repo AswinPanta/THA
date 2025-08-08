@@ -63,7 +63,7 @@ public class AppLocationManager {
     }
 
     public void requestPermissionsIfNecessary() {
-        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
         ArrayList<String> permissionsToRequest = new ArrayList<>();
         for (String permission : permissions) {
             if (ContextCompat.checkSelfPermission(context, permission)

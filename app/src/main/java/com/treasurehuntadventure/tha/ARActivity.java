@@ -17,6 +17,8 @@ public class ARActivity extends AppCompatActivity {
     private TextView arTitle;
     private String treasureModel;
     private ObjectAnimator pulseAnimator;
+    private ObjectAnimator pulseY;
+    private Handler mainHandler;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class ARActivity extends AppCompatActivity {
         }
         
         Timber.d("Enhanced ARActivity onCreate");
+        mainHandler = new Handler(android.os.Looper.getMainLooper());
         
         // Initialize treasure model before setting up views
         treasureModel = getIntent().getStringExtra("glbFile");
@@ -62,7 +65,7 @@ public class ARActivity extends AppCompatActivity {
         Timber.d("Setting up enhanced AR experience");
         
         // Simulate AR detection with enhanced animations
-        new Handler().postDelayed(() -> {
+        mainHandler.postDelayed(() -> {
             Toast.makeText(this, "🏴‍☠️ Treasure detected nearby!", Toast.LENGTH_SHORT).show();
             treasureImageView.setVisibility(View.VISIBLE);
         }, 1500);
@@ -92,7 +95,7 @@ public class ARActivity extends AppCompatActivity {
         pulseAnimator.setRepeatCount(ObjectAnimator.INFINITE);
         pulseAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         
-        ObjectAnimator pulseY = ObjectAnimator.ofFloat(treasureImageView, "scaleY", 1.0f, 1.3f, 1.0f);
+        pulseY = ObjectAnimator.ofFloat(treasureImageView, "scaleY", 1.0f, 1.3f, 1.0f);
         pulseY.setDuration(2000);
         pulseY.setRepeatCount(ObjectAnimator.INFINITE);
         pulseY.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -132,7 +135,7 @@ public class ARActivity extends AppCompatActivity {
                         arTitle.setText("🎉 Mission Complete!");
                         
                         // Return success result after delay
-                        new Handler().postDelayed(() -> {
+                        mainHandler.postDelayed(() -> {
                             setResult(RESULT_OK);
                             finish();
                         }, 2000);
@@ -150,6 +153,12 @@ public class ARActivity extends AppCompatActivity {
         super.onDestroy();
         if (pulseAnimator != null) {
             pulseAnimator.cancel();
+        }
+        if (pulseY != null) {
+            pulseY.cancel();
+        }
+        if (mainHandler != null) {
+            mainHandler.removeCallbacksAndMessages(null);
         }
         Timber.d("Enhanced ARActivity destroyed");
     }

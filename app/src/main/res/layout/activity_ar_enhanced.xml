@@ -7,11 +7,23 @@
     android:background="@android:color/black"
     tools:context=".ARActivity">
 
-    <!-- AR Scene View -->
-    <io.github.sceneview.ar.ArSceneView
+    <!-- AR Scene View Placeholder -->
+    <FrameLayout
         android:id="@+id/ar_scene_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@android:color/black">
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="AR View\n(Camera placeholder)"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+    </FrameLayout>
 
     <!-- AR Overlay UI -->
     <FrameLayout
@@ -81,7 +93,7 @@
                         android:layout_height="16dp"
                         android:layout_marginEnd="4dp"
                         android:src="@drawable/ic_location"
-                        android:tint="@color/op_ocean_blue" />
+                        app:tint="@color/op_ocean_blue" />
                     
                     <TextView
                         android:id="@+id/distance_text"
@@ -101,7 +113,7 @@
                     android:layout_marginStart="12dp"
                     android:src="@drawable/ic_close"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:tint="@color/op_text_secondary"
+                    app:tint="@color/op_text_secondary"
                     android:contentDescription="Close AR View" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
