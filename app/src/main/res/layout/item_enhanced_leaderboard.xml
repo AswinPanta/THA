@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/player_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/pirate_black_transparent"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    android:foreground="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <!-- Rank Section -->
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp">
+
+            <!-- Rank Number -->
+            <TextView
+                android:id="@+id/rank_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="4"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/pirate_gold"
+                android:gravity="center"
+                android:background="@drawable/circle_background"
+                android:backgroundTint="@color/pirate_dark_blue"
+                tools:text="4" />
+
+            <!-- Trophy Badge for Top 3 -->
+            <ImageView
+                android:id="@+id/rank_badge"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_trophy_gold"
+                android:visibility="gone"
+                android:scaleType="centerInside"
+                android:padding="8dp" />
+
+        </FrameLayout>
+
+        <!-- Avatar -->
+        <ImageView
+            android:id="@+id/avatar_image"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/default_avatar"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_background"
+            android:backgroundTint="@color/pirate_gray" />
+
+        <!-- Player Info Section -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Player Name -->
+            <TextView
+                android:id="@+id/player_name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Captain Blackbeard"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Captain Blackbeard" />
+
+            <!-- Player Title -->
+            <TextView
+                android:id="@+id/player_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Legendary Pirate"
+                android:textSize="12sp"
+                android:textColor="@color/pirate_gold"
+                android:textStyle="italic"
+                android:layout_marginTop="2dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Legendary Pirate" />
+
+            <!-- Player Level and Activity -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/player_level_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Level 42"
+                    android:textSize="11sp"
+                    android:textColor="@color/pirate_gray"
+                    android:drawableStart="@drawable/ic_star_small"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
+                    tools:text="Level 42" />
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="4dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:background="@drawable/dot_separator" />
+
+                <TextView
+                    android:id="@+id/last_active_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Active today"
+                    android:textSize="11sp"
+                    android:textColor="@color/pirate_gray"
+                    tools:text="Active today" />
+
+            </LinearLayout>
+
+            <!-- Badges Row -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/badge_1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_badge_default"
+                    android:layout_marginEnd="4dp"
+                    android:visibility="gone"
+                    android:scaleType="centerInside" />
+
+                <ImageView
+                    android:id="@+id/badge_2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_badge_default"
+                    android:layout_marginEnd="4dp"
+                    android:visibility="gone"
+                    android:scaleType="centerInside" />
+
+                <ImageView
+                    android:id="@+id/badge_3"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_badge_default"
+                    android:visibility="gone"
+                    android:scaleType="centerInside" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Score Section -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginStart="16dp">
+
+            <TextView
+                android:id="@+id/score_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12,450"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/pirate_gold"
+                android:fontFamily="monospace"
+                tools:text="12,450" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="points"
+                android:textSize="10sp"
+                android:textColor="@color/pirate_gray"
+                android:layout_marginTop="2dp" />
+
+        </LinearLayout>
+
+        <!-- Chevron Icon -->
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_chevron_right"
+            app:tint="@color/pirate_gray"
+            android:alpha="0.6" />
+
+    </LinearLayout>
+
+    <!-- Rank Change Indicator (Optional) -->
+    <LinearLayout
+        android:id="@+id/rank_change_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="8dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/rounded_background"
+        android:backgroundTint="@color/op_green"
+        android:padding="4dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_arrow_up"
+            app:tint="@color/white"
+            android:layout_marginEnd="2dp" />
+
+        <TextView
+            android:id="@+id/rank_change_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+3"
+            android:textSize="10sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            tools:text="+3" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

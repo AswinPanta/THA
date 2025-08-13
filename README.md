@@ -7,7 +7,7 @@ A real-time, multiplayer, location-based treasure hunt game for Android, built a
 ## 🚩 Project Overview
 - **Theme:** Pirates (Jolly Roger)
 - **Platform:** Android (Java/Kotlin)
-- **Tech:** Firebase (Auth, Firestore), ARCore/SceneView, osmdroid, Glide, Volley, Material Design
+- **Tech:** Firebase (Auth, Firestore), ARCore/SceneView, osmdroid, Glide, Volley, Material Design, TensorFlow Lite, AI/ML
 - **Goal:** Stand out with a modern, feature-rich, multiplayer mobile app
 
 ---
@@ -19,7 +19,9 @@ A real-time, multiplayer, location-based treasure hunt game for Android, built a
 - **AR Mode:** Find and capture treasures in AR (3D .glb models)
 - **Chat:** Real-time group chat for all players
 - **Leaderboard:** See top pirates by treasures captured
-- **Challenges:** Daily/weekly tasks for extra rewards
+- **AI-Powered Challenges:** Personalized daily/weekly tasks with adaptive difficulty
+- **Behavior Analytics:** Real-time player behavior tracking and ML-based personalization
+- **Smart Difficulty:** Dynamic difficulty adjustment based on player performance
 - **Profile:** Avatar/banner from Pexels, stats, captured treasures
 - **Stats:** Dashboard for treasures, distance, time, challenges
 - **Settings:** Sound toggle

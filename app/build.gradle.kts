@@ -59,6 +59,8 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-messaging-ktx")
+    implementation("com.google.firebase:firebase-database-ktx") // Realtime Database
+    implementation("com.google.firebase:firebase-functions-ktx") // Cloud Functions
 
     // Core Android libraries
     implementation(libs.appcompat)
@@ -72,6 +74,18 @@ dependencies {
     implementation("org.osmdroid:osmdroid-android:6.1.20")
     implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation("com.google.android.gms:play-services-maps:19.0.0")
+
+    // Google Sign-In
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+
+    // Biometric Authentication
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
+
+    // Google Sign-In
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+
+    // Biometric Authentication
+    implementation("androidx.biometric:biometric:1.2.0-alpha05")
     
     // Image loading and caching
     implementation("com.github.bumptech.glide:glide:4.16.0")
@@ -97,7 +111,44 @@ dependencies {
     // AR dependencies
     implementation("com.google.ar:core:1.42.0")
     implementation("io.github.sceneview:arsceneview:1.2.1")
-    
+
+    // ML Kit for AI-based object recognition
+    implementation("com.google.mlkit:object-detection:17.0.1")
+    implementation("com.google.mlkit:image-labeling:17.0.8")
+    implementation("com.google.mlkit:text-recognition:16.0.0")
+    implementation("com.google.mlkit:camera:16.2.6")
+
+    // ML Kit for chat features
+    implementation("com.google.mlkit:language-id:17.0.5")
+    implementation("com.google.mlkit:translate:17.0.2")
+
+    // Google Cloud Translation API
+    implementation("com.google.cloud:google-cloud-translate:2.20.0")
+
+    // Content moderation and toxicity detection
+    implementation("com.google.cloud:google-cloud-dlp:3.20.1")
+    implementation("org.tensorflow:tensorflow-lite-task-text:0.4.4")
+
+    // TensorFlow Lite for custom models
+    implementation("org.tensorflow:tensorflow-lite:2.14.0")
+    implementation("org.tensorflow:tensorflow-lite-gpu:2.14.0")
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
+    implementation("org.tensorflow:tensorflow-lite-metadata:0.4.4")
+
+    // Firebase ML and AI services for personalized challenges
+    implementation("com.google.firebase:firebase-ml-common:22.1.2")
+    implementation("com.google.firebase:firebase-appcheck-ktx")
+    implementation("com.google.firebase:firebase-crashlytics-ktx")
+    implementation("com.google.firebase:firebase-perf-ktx")
+
+    // Work Manager for background AI processing
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+
+    // Advanced RecyclerView and UI components for challenges
+    implementation("androidx.recyclerview:recyclerview-selection:1.1.0")
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0") // For analytics charts
+
     // Testing
     testImplementation(libs.junit)
     testImplementation("org.mockito:mockito-core:5.14.2")

@@ -210,14 +210,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         zoomInButton.setOnClickListener(v -> map.getController().zoomIn());
         zoomOutButton.setOnClickListener(v -> map.getController().zoomOut());
 
-        // Ensure we have a user; avoid NPE if not signed in
+        // Check authentication status - redirect to login if not authenticated
         com.google.firebase.auth.FirebaseUser currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             userId = currentUser.getUid();
         } else {
-            com.google.firebase.auth.FirebaseAuth.getInstance().signInAnonymously()
-                .addOnSuccessListener(result -> userId = result.getUser() != null ? result.getUser().getUid() : null)
-                .addOnFailureListener(e -> Log.w("Auth", "Anonymous sign-in failed", e));
+            // User not authenticated, redirect to login
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(loginIntent);
+            finish();
+            return;
         }
 
         captureActivityLauncher = registerForActivityResult(

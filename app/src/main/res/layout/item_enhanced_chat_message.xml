@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- Message Container -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/message_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginBottom="4dp"
+        app:cardBackgroundColor="@color/pirate_black_transparent"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:maxWidth="280dp">
+
+            <!-- Sender and Indicators Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="4dp">
+
+                <TextView
+                    android:id="@+id/sender_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Captain Hook"
+                    android:textColor="@color/pirate_gold"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="Captain Hook" />
+
+                <!-- Translation Indicator -->
+                <ImageView
+                    android:id="@+id/translation_indicator"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/ic_translate"
+                    app:tint="@color/op_blue"
+                    android:visibility="gone"
+                    android:contentDescription="Translated" />
+
+                <!-- Moderation Indicator -->
+                <ImageView
+                    android:id="@+id/moderation_indicator"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/ic_warning"
+                    app:tint="@color/op_red"
+                    android:visibility="gone"
+                    android:contentDescription="Moderated" />
+
+            </LinearLayout>
+
+            <!-- Message Text -->
+            <TextView
+                android:id="@+id/message_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ahoy mateys! Found a legendary treasure near the old lighthouse! 🏴‍☠️💰"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:lineSpacingExtra="2dp"
+                tools:text="Ahoy mateys! Found a legendary treasure near the old lighthouse! 🏴‍☠️💰" />
+
+            <!-- Timestamp -->
+            <TextView
+                android:id="@+id/timestamp_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="4dp"
+                android:text="14:32"
+                android:textColor="@color/pirate_gray"
+                android:textSize="10sp"
+                tools:text="14:32" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Message Status Indicators (for sent messages) -->
+    <LinearLayout
+        android:id="@+id/message_status_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="2dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/message_status_icon"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/ic_check"
+            app:tint="@color/pirate_gray"
+            android:contentDescription="Message Status" />
+
+        <TextView
+            android:id="@+id/message_status_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="Sent"
+            android:textColor="@color/pirate_gray"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    <!-- Game Context Indicators -->
+    <LinearLayout
+        android:id="@+id/game_context_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start"
+        android:layout_marginTop="4dp"
+        android:visibility="gone">
+
+        <!-- Location Context -->
+        <LinearLayout
+            android:id="@+id/location_context"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/rounded_background"
+            android:backgroundTint="@color/pirate_blue_transparent"
+            android:padding="4dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/ic_location"
+                app:tint="@color/op_blue"
+                android:layout_marginEnd="4dp" />
+
+            <TextView
+                android:id="@+id/location_context_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Near Treasure"
+                android:textColor="@color/op_blue"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <!-- Treasure Context -->
+        <LinearLayout
+            android:id="@+id/treasure_context"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/rounded_background"
+            android:backgroundTint="@color/pirate_gold_transparent"
+            android:padding="4dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/treasure_star"
+                app:tint="@color/pirate_gold"
+                android:layout_marginEnd="4dp" />
+
+            <TextView
+                android:id="@+id/treasure_context_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Legendary"
+                android:textColor="@color/pirate_gold"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

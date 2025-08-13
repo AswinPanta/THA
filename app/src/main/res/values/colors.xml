@@ -54,6 +54,11 @@
     <color name="achievement_gold">#FFD700</color>
     <color name="level_up_blue">#4CAF50</color>
     <color name="pirate_blue">#1565C0</color>
+
+    <!-- Authentication Colors -->
+    <color name="op_success_green">#4CAF50</color>
+    <color name="op_warning_orange">#FF9800</color>
+    <color name="op_error_red">#F44336</color>
     
     <!-- Alias colors for layout compatibility -->
     <color name="primary">@color/primaryColor</color>

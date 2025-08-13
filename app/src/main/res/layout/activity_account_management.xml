@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pirate_login_background"
+    tools:context=".AccountManagementActivity">
+
+    <!-- Animated Background Waves -->
+    <ImageView
+        android:id="@+id/background_waves"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.3"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ocean_waves_bg" />
+
+    <!-- Scrollable Content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Header Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                android:background="@color/op_card_bg">
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+                    
+                    <!-- Back Button -->
+                    <ImageButton
+                        android:id="@+id/backButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_arrow_back"
+                        android:contentDescription="Go back"
+                        app:tint="@color/op_ocean_blue" />
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Account Management"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/op_navy"
+                        android:fontFamily="serif" />
+                    
+                    <TextView
+                        android:id="@+id/userEmailText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:text="captain@treasurehunt.com"
+                        android:textSize="16sp"
+                        android:textColor="@color/op_text_secondary" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Account Settings Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                android:background="@color/op_card_bg">
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Account Settings"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/op_navy"
+                        android:layout_marginBottom="16dp" />
+                    
+                    <!-- Update Email Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/updateEmailButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginBottom="12dp"
+                        android:text="Update Email Address"
+                        android:textSize="16sp"
+                        android:textColor="@color/op_ocean_blue"
+                        app:strokeColor="@color/op_ocean_blue"
+                        app:strokeWidth="2dp"
+                        app:cornerRadius="28dp"
+                        app:icon="@drawable/ic_email"
+                        app:iconGravity="textStart"
+                        app:iconPadding="8dp"
+                        app:iconTint="@color/op_ocean_blue"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                    
+                    <!-- Change Password Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/changePasswordButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginBottom="12dp"
+                        android:text="Change Password"
+                        android:textSize="16sp"
+                        android:textColor="@color/op_ocean_blue"
+                        app:strokeColor="@color/op_ocean_blue"
+                        app:strokeWidth="2dp"
+                        app:cornerRadius="28dp"
+                        app:icon="@drawable/ic_lock"
+                        app:iconGravity="textStart"
+                        app:iconPadding="8dp"
+                        app:iconTint="@color/op_ocean_blue"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                    
+                    <!-- Sign Out Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/signOutButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:text="Sign Out"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        app:backgroundTint="@color/op_warning_orange"
+                        app:cornerRadius="28dp"
+                        app:icon="@drawable/ic_logout"
+                        app:iconGravity="textStart"
+                        app:iconPadding="8dp"
+                        app:iconTint="@color/white"
+                        style="@style/Widget.MaterialComponents.Button" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Danger Zone Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                android:background="@color/op_card_bg">
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Danger Zone"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/op_bright_red"
+                        android:layout_marginBottom="8dp" />
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Once you delete your account, there is no going back. Please be certain."
+                        android:textSize="14sp"
+                        android:textColor="@color/op_text_secondary"
+                        android:layout_marginBottom="16dp" />
+                    
+                    <!-- Delete Account Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/deleteAccountButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:text="Delete Account"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        app:backgroundTint="@color/op_bright_red"
+                        app:cornerRadius="28dp"
+                        app:icon="@drawable/ic_delete"
+                        app:iconGravity="textStart"
+                        app:iconPadding="8dp"
+                        app:iconTint="@color/white"
+                        style="@style/Widget.MaterialComponents.Button" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Success/Error Message Cards -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/success_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/op_success_green"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
+                
+                <TextView
+                    android:id="@+id/successTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:drawableStart="@drawable/ic_check_circle"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical" />
+            </androidx.cardview.widget.CardView>
+            
+            <androidx.cardview.widget.CardView
+                android:id="@+id/error_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/op_bright_red"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
+                
+                <TextView
+                    android:id="@+id/errorTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:drawableStart="@drawable/ic_error"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical" />
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    
+    <!-- Loading Overlay -->
+    <FrameLayout
+        android:id="@+id/loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/op_card_shadow"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true">
+        
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/loading_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:indicatorColor="@color/op_sunny_orange"
+            app:trackColor="@color/op_cream" />
+    </FrameLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

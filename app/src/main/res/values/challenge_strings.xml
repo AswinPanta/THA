@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Challenge Activity Strings -->
+    <string name="challenge_background">Challenge background image</string>
+    <string name="challenge_type">Challenge type icon</string>
+    <string name="milestone_icon">Milestone icon</string>
+    <string name="generate_challenges">Generate new challenges</string>
+    
+    <!-- Challenge Types -->
+    <string name="challenge_type_treasure_hunt">Treasure Hunt</string>
+    <string name="challenge_type_exploration">Exploration</string>
+    <string name="challenge_type_speed">Speed Challenge</string>
+    <string name="challenge_type_accuracy">Accuracy Challenge</string>
+    <string name="challenge_type_social">Social Challenge</string>
+    <string name="challenge_type_collection">Collection Challenge</string>
+    <string name="challenge_type_distance">Distance Challenge</string>
+    <string name="challenge_type_time">Time Challenge</string>
+    <string name="challenge_type_skill">Skill Challenge</string>
+    <string name="challenge_type_creative">Creative Challenge</string>
+    
+    <!-- Challenge Difficulties -->
+    <string name="difficulty_beginner">Beginner</string>
+    <string name="difficulty_novice">Novice</string>
+    <string name="difficulty_intermediate">Intermediate</string>
+    <string name="difficulty_advanced">Advanced</string>
+    <string name="difficulty_expert">Expert</string>
+    <string name="difficulty_master">Master</string>
+    
+    <!-- Challenge Status -->
+    <string name="status_available">Available</string>
+    <string name="status_active">Active</string>
+    <string name="status_completed">Completed</string>
+    <string name="status_failed">Failed</string>
+    <string name="status_expired">Expired</string>
+    
+    <!-- Action Buttons -->
+    <string name="action_start_challenge">Start Challenge</string>
+    <string name="action_continue_challenge">Continue</string>
+    <string name="action_abandon_challenge">Abandon</string>
+    <string name="action_retry_challenge">Retry</string>
+    <string name="action_view_rewards">View Rewards</string>
+    <string name="action_share_challenge">Share</string>
+    <string name="action_view_details">Details</string>
+    
+    <!-- Progress Messages -->
+    <string name="progress_complete_format">%d%% Complete</string>
+    <string name="time_remaining_hours_minutes">%dh %dm remaining</string>
+    <string name="time_remaining_minutes">%dm remaining</string>
+    <string name="time_remaining_seconds">%ds remaining</string>
+    <string name="time_expired">Time expired</string>
+    
+    <!-- AI Insights -->
+    <string name="ai_engagement_label">Engagement</string>
+    <string name="ai_personalization_label">Personalized</string>
+    <string name="ai_difficulty_label">Difficulty</string>
+    <string name="ai_confidence_format">AI Confidence: %d%%</string>
+    
+    <!-- Rewards -->
+    <string name="reward_experience_format">+%d XP</string>
+    <string name="reward_coins_format">+%d</string>
+    <string name="reward_bonus_earned">🎉 Bonus Earned!</string>
+    <string name="reward_bonus_available">Bonus Available</string>
+    
+    <!-- Milestones -->
+    <string name="milestone_reached_format">🎉 Milestone reached: %s</string>
+    <string name="milestone_progress_format">%d/%d</string>
+    
+    <!-- Challenge Generation -->
+    <string name="generating_challenges">Generating personalized challenges...</string>
+    <string name="challenges_generated_format">Generated %d personalized challenges!</string>
+    <string name="challenge_generation_failed">Failed to generate challenges. Please try again.</string>
+    
+    <!-- Challenge Completion -->
+    <string name="challenge_started_format">Challenge started: %s</string>
+    <string name="challenge_completed">🎉 Challenge completed!</string>
+    <string name="challenge_completed_rewards_format">🎉 Challenge completed! +%d XP</string>
+    <string name="challenge_abandoned">Challenge abandoned</string>
+    <string name="challenge_failed_format">Challenge failed: %s</string>
+    
+    <!-- Error Messages -->
+    <string name="error_challenge_not_found">Challenge not found</string>
+    <string name="error_failed_to_load_challenge">Failed to load challenge data</string>
+    <string name="error_failed_to_start_challenge">Failed to start challenge</string>
+    <string name="error_failed_to_complete_challenge">Failed to complete challenge</string>
+    <string name="error_failed_to_abandon_challenge">Failed to abandon challenge</string>
+    
+    <!-- Empty States -->
+    <string name="empty_challenges_title">No challenges available yet!</string>
+    <string name="empty_challenges_message">Tap the compass to generate personalized challenges.</string>
+    <string name="empty_completed_challenges">No completed challenges yet</string>
+    <string name="empty_active_challenges">No active challenges</string>
+    
+    <!-- Hints -->
+    <string name="hint_treasure_hunt">💡 Try exploring areas with higher treasure density. Check your map for hotspots!</string>
+    <string name="hint_exploration">💡 Consider visiting landmarks or popular locations to discover new areas faster.</string>
+    <string name="hint_speed_challenge">💡 Focus on efficiency over perfection. Quick decisions often lead to better times!</string>
+    <string name="hint_accuracy_challenge">💡 Take your time with each action. Accuracy is more important than speed here.</string>
+    <string name="hint_social_challenge">💡 Join active chat channels or help other players to boost your social interactions.</string>
+    <string name="hint_generic">💡 Check your challenge details for specific tips and strategies.</string>
+    
+    <!-- Churn Risk -->
+    <string name="churn_risk_message">We miss you! Here are some easier challenges to get back into the game.</string>
+    
+    <!-- Analytics -->
+    <string name="analytics_title">Challenge Analytics</string>
+    <string name="analytics_completion_rate">Completion Rate</string>
+    <string name="analytics_average_satisfaction">Average Satisfaction</string>
+    <string name="analytics_total_challenges">Total Challenges</string>
+    <string name="analytics_completed_challenges">Completed Challenges</string>
+    
+    <!-- Share Messages -->
+    <string name="share_challenge_format">Check out this personalized challenge: %1$s\n%2$s\nDifficulty: %3$s\nRewards: +%4$d XP, +%5$d coins</string>
+    
+    <!-- Accessibility -->
+    <string name="accessibility_challenge_card">Challenge card for %s</string>
+    <string name="accessibility_progress_bar">Progress: %d percent</string>
+    <string name="accessibility_time_remaining">Time remaining: %s</string>
+    <string name="accessibility_difficulty_chip">Difficulty: %s</string>
+    <string name="accessibility_status_chip">Status: %s</string>
+    <string name="accessibility_milestone_completed">Milestone %s completed</string>
+    <string name="accessibility_milestone_pending">Milestone %s pending</string>
+</resources>
