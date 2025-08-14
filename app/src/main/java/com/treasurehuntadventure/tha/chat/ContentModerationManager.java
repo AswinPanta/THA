@@ -254,14 +254,14 @@ public class ContentModerationManager {
         
         // Check toxicity
         ToxicityResult toxicityResult = toxicityDetector.checkToxicity(text);
-        if (toxicityResult.score > TOXICITY_THRESHOLD * contextModifier) {
+        if (toxicityResult != null && toxicityResult.score > TOXICITY_THRESHOLD * contextModifier) {
             violations.add(ViolationType.TOXICITY);
             overallScore = Math.min(overallScore, 1.0f - toxicityResult.score);
         }
-        
+
         // Check spam
         SpamResult spamResult = spamDetector.checkSpam(text, userId);
-        if (spamResult.isSpam) {
+        if (spamResult != null && spamResult.isSpam) {
             violations.add(ViolationType.SPAM);
             overallScore = Math.min(overallScore, 0.3f);
         }
