@@ -165,18 +165,23 @@ public class SecurityManager {
     }
     
     public boolean validateAPICall(String apiEndpoint) {
+        if (apiEndpoint == null || apiEndpoint.trim().isEmpty()) {
+            Log.w(TAG, "Invalid API endpoint: null or empty");
+            return false;
+        }
+
         // Check general API rate limiting
         if (!checkRateLimit("api_call", MAX_ACTIONS_PER_MINUTE, 60 * 1000)) {
             Log.w(TAG, "API call rate limit exceeded");
             return false;
         }
-        
+
         // Check specific endpoint rate limiting
         if (!checkRateLimit("api_" + apiEndpoint, 10, 60 * 1000)) {
             Log.w(TAG, "Specific API endpoint rate limit exceeded: " + apiEndpoint);
             return false;
         }
-        
+
         return true;
     }
     

@@ -218,8 +218,9 @@ public class LeaderboardActivity extends AppCompatActivity implements Leaderboar
 
         if (refresh) {
             nextCursor = null;
+            int oldSize = playerList.size();
             playerList.clear();
-            adapter.notifyDataSetChanged();
+            adapter.notifyItemRangeRemoved(0, oldSize);
         }
 
         isLoading = true;
@@ -237,10 +238,11 @@ public class LeaderboardActivity extends AppCompatActivity implements Leaderboar
                             playerList.clear();
                         }
 
+                        int startPosition = playerList.size();
                         playerList.addAll(leaderboardPage.getPlayers());
                         nextCursor = leaderboardPage.getNextCursor();
 
-                        adapter.notifyDataSetChanged();
+                        adapter.notifyItemRangeInserted(startPosition, leaderboardPage.getPlayers().size());
 
                         if (playerList.isEmpty()) {
                             emptyStateText.setVisibility(View.VISIBLE);
@@ -310,11 +312,13 @@ public class LeaderboardActivity extends AppCompatActivity implements Leaderboar
                         loadingProgressBar.setVisibility(View.GONE);
 
                         // Replace current list with context
+                        int oldSize = playerList.size();
                         playerList.clear();
+                        adapter.notifyItemRangeRemoved(0, oldSize);
                         playerList.addAll(contextPage.getPlayers());
                         nextCursor = null; // No pagination for context view
 
-                        adapter.notifyDataSetChanged();
+                        adapter.notifyItemRangeInserted(0, contextPage.getPlayers().size());
 
                         // Scroll to current player
                         for (int i = 0; i < playerList.size(); i++) {
@@ -345,9 +349,11 @@ public class LeaderboardActivity extends AppCompatActivity implements Leaderboar
             runOnUiThread(() -> {
                 // Update only if this is a real-time update (not initial load)
                 if (!playerList.isEmpty()) {
+                    int oldSize = playerList.size();
                     playerList.clear();
+                    adapter.notifyItemRangeRemoved(0, oldSize);
                     playerList.addAll(players);
-                    adapter.notifyDataSetChanged();
+                    adapter.notifyItemRangeInserted(0, players.size());
 
                     Toast.makeText(this, "Leaderboard updated", Toast.LENGTH_SHORT).show();
                 }

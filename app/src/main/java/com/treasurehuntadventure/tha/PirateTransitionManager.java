@@ -50,12 +50,12 @@ public class PirateTransitionManager {
         
         if (!imagesLoaded) { onComplete.run(); return; }
         LayoutInflater inflater = activity.getLayoutInflater();
-        View overlay = inflater.inflate(R.layout.transition_pirate_boat, null);
+        FrameLayout decor = (FrameLayout) activity.getWindow().getDecorView();
+        View overlay = inflater.inflate(R.layout.transition_pirate_boat, decor, false);
         ImageView seaBg = overlay.findViewById(R.id.seaBackgroundImageView);
         ImageView boat = overlay.findViewById(R.id.pirateBoatImageView);
         seaBg.setImageBitmap(seaBitmap);
         boat.setImageBitmap(boatBitmap);
-        FrameLayout decor = (FrameLayout) activity.getWindow().getDecorView();
         decor.addView(overlay);
         int screenWidth = decor.getWidth();
         boat.setTranslationX(-boat.getWidth());

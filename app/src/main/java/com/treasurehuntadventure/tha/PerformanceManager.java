@@ -129,11 +129,13 @@ public class PerformanceManager {
         
         private void triggerMemoryCleanup() {
             // Clear image cache
-            PerformanceManager.getInstance(null).clearImageCache();
-            
+            if (instance != null) {
+                instance.clearImageCache();
+            }
+
             // Suggest garbage collection
             System.gc();
-            
+
             Log.d(TAG, "Memory cleanup completed");
         }
     }
@@ -384,11 +386,27 @@ public class PerformanceManager {
     public void shutdown() {
         if (backgroundExecutor != null) {
             backgroundExecutor.shutdown();
+            try {
+                if (!backgroundExecutor.awaitTermination(5, java.util.concurrent.TimeUnit.SECONDS)) {
+                    backgroundExecutor.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                backgroundExecutor.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
         }
         if (scheduledExecutor != null) {
             scheduledExecutor.shutdown();
+            try {
+                if (!scheduledExecutor.awaitTermination(5, java.util.concurrent.TimeUnit.SECONDS)) {
+                    scheduledExecutor.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                scheduledExecutor.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
         }
-        
+
         clearImageCache();
         Log.d(TAG, "Performance Manager shutdown");
     }

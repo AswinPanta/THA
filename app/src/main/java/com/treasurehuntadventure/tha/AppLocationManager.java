@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -72,10 +73,14 @@ public class AppLocationManager {
             }
         }
         if (permissionsToRequest.size() > 0) {
-            ActivityCompat.requestPermissions(
-                    (android.app.Activity) context,
-                    permissionsToRequest.toArray(new String[0]),
-                    REQUEST_PERMISSIONS_REQUEST_CODE);
+            if (context instanceof android.app.Activity) {
+                ActivityCompat.requestPermissions(
+                        (android.app.Activity) context,
+                        permissionsToRequest.toArray(new String[0]),
+                        REQUEST_PERMISSIONS_REQUEST_CODE);
+            } else {
+                Log.e("AppLocationManager", "Context is not an Activity, cannot request permissions");
+            }
         }
     }
 
